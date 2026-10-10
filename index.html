@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphic Brief & Task Management System</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh;line-height:1.5}
+h1,h2,h3,p{margin:0}
+button{font:inherit;cursor:pointer;border:0}
+.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.125em;flex:none}
+/* header */
+header{background:#4338ca;color:#fff;box-shadow:0 2px 6px #0003;position:sticky;top:0;z-index:50}
+.bar{max-width:80rem;margin:0 auto;padding:.75rem 1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
+.brand{display:flex;align-items:center;gap:.75rem}
+.brand .i{font-size:1.5rem;color:#facc15}
+.brand h1{font-size:1.25rem;font-weight:700;letter-spacing:.025em}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.sep{height:1.25rem;width:1px;background:#6366f1;margin:0 .25rem}
+.btn{color:#fff;padding:.375rem .75rem;border-radius:.5rem;font-size:.875rem;font-weight:600;box-shadow:0 1px 3px #0004;display:inline-flex;align-items:center;gap:.5rem;transition:filter .15s}
+.btn:hover{filter:brightness(.88)}
+.btn:disabled{opacity:.6;cursor:wait}
+.nav{color:#c7d2fe;font-size:.875rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:.375rem}.nav:hover{color:#fff}
+.b-sky{background:#0284c7}.b-amber{background:#d97706}.b-red{background:#ef4444}.b-emerald{background:#059669}.b-green{background:#16a34a}
+/* layout */
+main{max-width:80rem;margin:0 auto;padding:1rem;display:grid;gap:1.5rem;grid-template-columns:1fr}
+@media(min-width:768px){main{padding:1.5rem}}
+@media(min-width:1024px){main{grid-template-columns:1fr 1fr}}
+.card{background:#fff;padding:1.5rem;border-radius:.75rem;border:1px solid #e2e8f0;box-shadow:0 1px 2px #0001}
+.card-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #e2e8f0}
+.card-h h2{font-size:1.125rem;font-weight:700;color:#334155;display:flex;align-items:center;gap:.5rem}
+.card-h .i{color:#4f46e5}
+#save-status{font-size:.75rem;color:#94a3b8;font-weight:600}
+#save-status.ok{color:#059669}
+form{font-size:.875rem;display:grid;gap:1rem}
+fieldset{border:1px solid #e2e8f0;background:#f8fafc;padding:1rem;border-radius:.5rem;margin:0;display:grid;gap:.75rem;min-width:0}
+legend{display:contents}
+fieldset h3{font-size:.75rem;font-weight:700;color:#4338ca;letter-spacing:.05em;text-transform:uppercase}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+label{display:block;color:#475569}
+label span.r{color:#ef4444}
+input,select,textarea{display:block;width:100%;margin-top:.25rem;border:1px solid #cbd5e1;border-radius:.375rem;padding:.375rem .75rem;font:inherit;background:#fff;outline:0}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px #6366f1;border-color:transparent}
+/* preview */
+.pv-wrap{display:flex;flex-direction:column;align-items:center;min-width:0}
+.pv-top{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;padding:0 .25rem}
+.pv-top b{font-size:.75rem;color:#64748b;text-transform:uppercase;letter-spacing:.05em}
+.pv-top em{font-style:normal;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding:.125rem .5rem;border-radius:.25rem;border:1px solid #c7d2fe}
+.pv-box{width:100%;background:#fff;box-shadow:0 10px 15px #0002;border-radius:.75rem;border:1px solid #e2e8f0;overflow:hidden}
+#brief-preview{width:100%;max-width:800px;margin:0 auto;background:#fff;padding:30px;display:grid;gap:1.25rem}
+.dh{border-bottom:2px solid #4f46e5;padding-bottom:1rem;display:flex;justify-content:space-between;align-items:flex-start}
+.tag{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#4f46e5;background:#eef2ff;padding:.25rem .5rem;border-radius:.25rem}
+#pv-title{font-size:1.5rem;font-weight:700;color:#0f172a;margin-top:.5rem;overflow-wrap:anywhere}
+.mut{font-size:.75rem;color:#94a3b8}
+.dh .mut{margin-top:.25rem}
+.dh>div:last-child{text-align:right}
+#pv-priority{display:inline-block;background:#f1f5f9;color:#334155;font-size:.75rem;padding:.25rem .625rem;border-radius:9999px;font-weight:700;border:1px solid #e2e8f0}
+#pv-status{font-size:.75rem;font-weight:700;margin-top:.5rem;color:#4f46e5}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:1rem;background:#f8fafc;padding:.75rem;border-radius:.5rem;font-size:.75rem;border:1px solid #f1f5f9}
+.meta .k{color:#94a3b8;display:block}
+.meta .s{color:#64748b;display:block}
+#pv-requester{font-weight:700;color:#334155}
+#pv-deadline{font-weight:700;color:#dc2626}
+.body{display:grid;gap:.75rem;font-size:.75rem}
+.sec{border-bottom:1px solid #f1f5f9;padding-bottom:.5rem}
+.sec b,.lbl{font-weight:700;color:#334155;display:block;margin-bottom:.25rem}
+.sec p,.body>div p,.two p{color:#475569;overflow-wrap:anywhere}
+.copy{background:#eef2ff80;padding:.75rem;border-radius:.5rem;border:1px solid #e0e7ff;display:grid;gap:.5rem}
+.copy>b{font-weight:700;color:#312e81;display:block;border-bottom:1px solid #e0e7ff;padding-bottom:.25rem}
+.copy small{color:#94a3b8;display:block;font-size:10px;text-transform:uppercase;font-weight:700}
+#pv-headline{font-weight:700;color:#1e293b;font-size:.875rem}
+#pv-subHeadline{white-space:pre-line}
+#pv-cta{font-weight:600;color:#4338ca!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding-top:.25rem}
+.two .lbl{margin:0}
+#pv-reference{font-style:italic}
+.foot{padding-top:1rem;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;display:flex;justify-content:space-between;gap:.5rem}
+@media print{
+ body *{visibility:hidden}
+ #brief-preview,#brief-preview *{visibility:visible}
+ #brief-preview{position:absolute;left:0;top:0;width:100%;margin:0;padding:20px}
+ .no-print{display:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.59 7.59"/><circle cx="11" cy="11" r="2"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+</svg>
+
+<header class="no-print">
+ <div class="bar">
+  <div class="brand"><svg class="i"><use href="#i-pen"/></svg><h1>Graphic Brief & Generator</h1></div>
+  <div class="acts">
+   <button class="btn b-sky" id="btn-save" title="บันทึกข้อมูลไว้ในเครื่อง"><svg class="i"><use href="#i-save"/></svg> บันทึกข้อมูล</button>
+   <button class="btn b-amber" id="btn-reset" title="ล้างค่าฟอร์มทั้งหมด"><svg class="i"><use href="#i-reset"/></svg> รีเซ็ต</button>
+   <div class="sep"></div>
+   <button class="btn b-red" id="btn-pdf" data-lib="pdf"><svg class="i"><use href="#i-file"/></svg> PDF</button>
+   <button class="btn b-green" id="btn-xlsx" data-lib="xlsx" title="ดาวน์โหลดบรีฟนี้เป็น Excel"><svg class="i"><use href="#i-grid"/></svg> Excel</button>
+   <button class="btn b-emerald" id="btn-sync" title="ส่งงานนี้เข้า Dashboard"><svg class="i"><use href="#i-sync"/></svg> ส่งไป Dashboard</button>
+   <button class="cloud-pill" id="cloud-status" type="button"></button>
+   <a class="nav" href="Management_Dashboard.html">เปิด Dashboard &rarr;</a>
+  </div>
+ </div>
+</header>
+
+<main>
+ <section class="card no-print">
+  <div class="card-h">
+   <h2><svg class="i"><use href="#i-clip"/></svg> กรอกข้อมูลบรีฟงาน (Brief Form)</h2>
+   <span id="save-status"></span>
+  </div>
+  <form id="briefForm">
+   <fieldset>
+    <h3>1. ข้อมูลพื้นฐาน (General Info)</h3>
+    <label>หัวข้องาน / ชื่องาน <span class="r">*</span><input type="text" id="projectTitle" placeholder="ระบุชื่อโครงการ..." required></label>
+    <div class="row">
+     <label>ผู้ส่งบรีฟ<input type="text" id="requesterName"></label>
+     <label>แผนก<input type="text" id="department"></label>
+    </div>
+    <div class="row">
+     <label>ความสำคัญ (Priority)
+      <select id="priority"><option>Normal</option><option>Medium</option><option>High / Campaign</option><option>Urgent</option></select></label>
+     <label>สถานะงาน (Status)
+      <select id="status"><option>Pending Brief</option><option>In Queue</option><option>In Progress</option><option>Completed</option></select></label>
+    </div>
+    <div class="row">
+     <label>กำหนดส่งงาน (Deadline)<input type="datetime-local" id="deadline"></label>
+     <label>ผู้ดูแล/กราฟิก<input type="text" id="assignee"></label>
+    </div>
+   </fieldset>
+   <fieldset>
+    <h3>2. รายละเอียดและข้อความ (Details & Copy)</h3>
+    <label>วัตถุประสงค์ (Objective)<input type="text" id="objective"></label>
+    <label>กลุ่มเป้าหมาย (Target Group)<input type="text" id="target"></label>
+    <label>Headline (ข้อความหลัก)<input type="text" id="headline"></label>
+    <label>Sub-headline / Details<textarea id="subHeadline" rows="2"></textarea></label>
+    <label>Call To Action (ปุ่มกด/ข้อความเชิญชวน)<input type="text" id="cta"></label>
+   </fieldset>
+   <fieldset>
+    <h3>3. สเปกงาน (Specs & Output)</h3>
+    <div class="row">
+     <label>ขนาด (Dimensions)<input type="text" id="dimensions" value="1:1 (1080x1080px)"></label>
+     <label>ประเภทไฟล์ (Format)<input type="text" id="fileType" value="PNG, MP4"></label>
+    </div>
+    <label>Mood & Tone / References Link<input type="text" id="reference"></label>
+   </fieldset>
+  </form>
+ </section>
+
+ <section class="pv-wrap">
+  <div class="pv-top no-print"><b>Live Document Preview</b><em>Auto-Updating</em></div>
+  <div class="pv-box">
+   <div id="brief-preview">
+    <div class="dh">
+     <div>
+      <span class="tag">Work Brief Document</span>
+      <h1 id="pv-title">-</h1>
+      <p class="mut">วันที่สร้างเอกสาร: <span id="pv-created-date">-</span></p>
+     </div>
+     <div><span id="pv-priority">Normal</span><p id="pv-status">Status: Pending Brief</p></div>
+    </div>
+    <div class="meta">
+     <div><span class="k">ผู้ส่งบรีฟ (Requester):</span><span id="pv-requester">-</span><span id="pv-dept" class="s">-</span></div>
+     <div><span class="k">กำหนดส่งงาน (Deadline):</span><span id="pv-deadline">-</span><span id="pv-assignee" class="s">ผู้ดูแล: -</span></div>
+    </div>
+    <div class="body">
+     <div class="sec"><b>วัตถุประสงค์ (Objective):</b><p id="pv-objective">-</p></div>
+     <div class="sec"><b>กลุ่มเป้าหมาย (Target Group):</b><p id="pv-target">-</p></div>
+     <div class="copy">
+      <b>รายละเอียดข้อความ (Content &amp; Copy):</b>
+      <div><small>Headline</small><p id="pv-headline">-</p></div>
+      <div><small>Sub-headline / Body</small><p id="pv-subHeadline">-</p></div>
+      <div><small>Call To Action</small><p id="pv-cta">-</p></div>
+     </div>
+     <div class="two">
+      <div><span class="lbl">ขนาดงาน (Dimensions):</span><p id="pv-dimensions">-</p></div>
+      <div><span class="lbl">ประเภทไฟล์ (Format):</span><p id="pv-fileType">-</p></div>
+     </div>
+     <div><span class="lbl">Mood &amp; Tone / Reference:</span><p id="pv-reference">-</p></div>
+    </div>
+    <div class="foot"><span>Graphic Brief System Generated</span><span>รอบการแก้ไขงานมาตรฐาน: ไม่เกิน 2-3 ครั้ง</span></div>
+   </div>
+  </div>
+ </section>
+</main>
+
+<script src="cloud.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const DRAFT_KEY = 'saved_graphic_brief', DB_KEY = 'graphic_tasks_db';
+
+// [field id, preview id, preview prefix, export header, excel col width]
+const F = [
+ ['projectTitle','pv-title','','ชื่องาน (Project Title)',30],
+ ['requesterName','pv-requester','','ผู้ส่งบรีฟ (Requester)',20],
+ ['department','pv-dept','','แผนก (Department)',15],
+ ['priority','pv-priority','','ความสำคัญ (Priority)',15],
+ ['status','pv-status','Status: ','สถานะ (Status)',15],
+ ['deadline',null,'','กำหนดส่ง (Deadline)',20],
+ ['assignee','pv-assignee','ผู้ดูแล: ','ผู้ดูแล (Assignee)',15],
+ ['objective','pv-objective','','วัตถุประสงค์ (Objective)',25],
+ ['target','pv-target','','กลุ่มเป้าหมาย (Target)',20],
+ ['headline','pv-headline','','Headline',25],
+ ['subHeadline','pv-subHeadline','','Sub-headline',25],
+ ['cta','pv-cta','','Call To Action',20],
+ ['dimensions','pv-dimensions','','ขนาด (Dimensions)',20],
+ ['fileType','pv-fileType','','ประเภทไฟล์ (Format)',15],
+ ['reference','pv-reference','','Reference',20]
+];
+const el = {}; F.forEach(([id,pv]) => { el[id] = $(id); });
+const pv = {}; F.forEach(([id,p]) => { if (p) pv[id] = $(p); });
+const BRIEF_KEYS = ['objective','target','headline','subHeadline','cta','dimensions','fileType','reference'];
+let briefId = null; // ใช้กันการส่งซ้ำเข้า Dashboard
+
+const p2 = n => String(n).padStart(2,'0');
+const fmt = d => `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${p2(d.getHours())}:${p2(d.getMinutes())}`;
+const toLocalInput = d => `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`;
+const readJSON = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } };
+
+function updatePreview() {
+ for (const [id,,prefix] of F) {
+  if (id === 'deadline') continue;
+  pv[id].textContent = prefix + (el[id].value || '-');
+ }
+ const v = el.deadline.value;
+ $('pv-deadline').textContent = v ? fmt(new Date(v)) : '-';
+}
+
+function flash(msg, cls, ms) {
+ const s = $('save-status');
+ s.textContent = msg; s.className = cls || '';
+ setTimeout(() => { s.textContent = ''; s.className = ''; }, ms);
+}
+
+function saveDraft() {
+ const d = { __id: briefId };
+ F.forEach(([id]) => { d[id] = el[id].value; });
+ localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+ flash('บันทึกข้อมูลเรียบร้อยแล้ว!', 'ok', 3000);
+}
+
+function loadDraft() {
+ const d = readJSON(DRAFT_KEY, null);
+ if (!d) return false;
+ F.forEach(([id]) => { if (d[id] !== undefined) el[id].value = d[id]; });
+ briefId = d.__id || null;
+ return true;
+}
+
+function resetForm() {
+ if (!confirm('คุณต้องการล้างข้อมูลในฟอร์มทั้งหมดใช่หรือไม่?')) return;
+ $('briefForm').reset();
+ localStorage.removeItem(DRAFT_KEY);
+ briefId = null;
+ updatePreview();
+ flash('ล้างข้อมูลเรียบร้อย', '', 2000);
+}
+
+const values = () => F.map(([id]) => el[id].value);
+
+function pushToDashboard() {
+ const title = el.projectTitle.value.trim();
+ if (!title) { alert('กรุณากรอกชื่องาน / Project Title ก่อนส่งข้อมูลครับ'); return false; }
+ const task = {
+  id: briefId || Date.now().toString(), title,
+  requester: el.requesterName.value, dept: el.department.value,
+  priority: el.priority.value, status: el.status.value,
+  deadline: el.deadline.value, assignee: el.assignee.value,
+  brief: Object.fromEntries(BRIEF_KEYS.map(k => [k, el[k].value]))
+ };
+ if (Cloud.configured()) {
+  Cloud.enqueue({ type: 'upsert', task });   // ส่งขึ้น Google Sheets (มีคิวสำรองในเครื่อง)
+ } else {
+  const tasks = readJSON(DB_KEY, []);
+  const idx = tasks.findIndex(t => t.id === task.id);
+  idx >= 0 ? (tasks[idx] = task) : tasks.push(task);
+  localStorage.setItem(DB_KEY, JSON.stringify(tasks));
+ }
+ briefId = task.id;
+ // จำ id ไว้ใน draft ถ้ามี เพื่อให้ส่งซ้ำแล้วอัปเดตงานเดิมแทนการสร้างซ้ำ
+ const d = readJSON(DRAFT_KEY, null);
+ if (d) { d.__id = briefId; localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }
+ return true;
+}
+
+// โหลดไลบรารีหนักเฉพาะตอนที่ต้องใช้
+const LIBS = {
+ pdf: ['https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js', () => window.html2pdf],
+ xlsx: ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js', () => window.XLSX]
+};
+const pending = {};
+function lib(name) {
+ const [src, ready] = LIBS[name];
+ if (ready()) return Promise.resolve();
+ return pending[name] || (pending[name] = new Promise((ok, fail) => {
+  const s = document.createElement('script');
+  s.src = src; s.onload = ok;
+  s.onerror = () => { delete pending[name]; fail(new Error('โหลดไลบรารีไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่')); };
+  document.head.appendChild(s);
+ }));
+}
+
+async function run(btn, libName, job) {
+ btn.disabled = true;
+ try { if (libName) await lib(libName); job(); }
+ catch (e) { alert(e.message); }
+ finally { btn.disabled = false; }
+}
+
+const safeName = () => (el.projectTitle.value || 'Brief').replace(/[\\/:*?"<>|]/g, '_');
+
+function exportPDF() {
+ html2pdf().set({
+  margin: 10, filename: `${safeName()}_Brief.pdf`,
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2, useCORS: true, logging: false },
+  jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+ }).from($('brief-preview')).save();
+}
+
+async function syncOnly() {
+ if (!pushToDashboard()) return;
+ if (!Cloud.configured()) return flash('ส่งเข้า Dashboard เรียบร้อยแล้ว (เก็บในเครื่องนี้)', 'ok', 4000);
+ flash('กำลังส่งเข้า Google Sheets…', '', 15000);
+ const list = await Cloud.sync();
+ list ? flash('ส่งเข้า Google Sheets เรียบร้อยแล้ว', 'ok', 4000)
+      : flash('ส่งไม่สำเร็จ — เก็บไว้ในเครื่องแล้ว จะส่งใหม่อัตโนมัติ', '', 6000);
+}
+
+function exportExcel() {
+ const v = values(), row = {};
+ F.forEach((f, i) => { row[f[3]] = v[i]; });
+ const ws = XLSX.utils.json_to_sheet([row]);
+ ws['!cols'] = F.map(f => ({ wch: f[4] }));
+ const wb = XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb, ws, 'Graphic Brief');
+ XLSX.writeFile(wb, `${safeName()}_Brief.xlsx`);
+}
+
+// init
+const now = new Date();
+$('pv-created-date').textContent = fmt(now);
+if (!loadDraft()) { const f = new Date(now); f.setDate(f.getDate() + 3); el.deadline.value = toLocalInput(f); }
+updatePreview();
+if (Cloud.configured() && Cloud.pending().length) Cloud.sync();   // ส่งงานที่ค้างจากครั้งก่อน
+
+$('briefForm').addEventListener('input', updatePreview);
+$('btn-save').onclick = saveDraft;
+$('btn-reset').onclick = resetForm;
+$('btn-pdf').onclick = e => run(e.currentTarget, 'pdf', exportPDF);
+$('btn-sync').onclick = syncOnly;
+$('btn-xlsx').onclick = e => run(e.currentTarget, 'xlsx', exportExcel);
+// เริ่มโหลดล่วงหน้าเมื่อเอาเมาส์/นิ้วแตะปุ่ม เพื่อให้กดแล้วทำงานทันที
+document.querySelectorAll('[data-lib]').forEach(b => {
+ const pre = () => lib(b.dataset.lib).catch(() => {});
+ b.addEventListener('pointerenter', pre, { once: true });
+ b.addEventListener('focus', pre, { once: true });
+});
+})();
+</script>
+</body>
+</html>
