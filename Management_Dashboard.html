@@ -95,6 +95,29 @@ td .badge{font-size:.75rem;padding:.25rem .625rem}
 td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding:.25rem .5rem;border-radius:.25rem}
 .c{text-align:center}
 .empty{padding:1.5rem;text-align:center;color:#94a3b8}
+/* calendar */
+.cal{padding:1.5rem;display:grid;gap:1rem}
+.cal-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
+.cal-h h2{font-size:1.125rem;font-weight:700;margin:0}
+.cal-nav{display:flex;flex-wrap:wrap;gap:.5rem}
+.cal-nav button{border:1px solid #cbd5e1;border-radius:.5rem;padding:.375rem .75rem;font-size:.875rem;font-weight:600;color:#334155;background:#fff;display:inline-flex;align-items:center;gap:.25rem}
+.cal-nav button:hover{background:#f8fafc}
+.cal-scroll{overflow-x:auto}
+.cal-in{min-width:640px;display:grid;gap:.5rem}
+.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.5rem}
+.cal-wd{text-align:center;font-weight:700;font-size:.75rem;color:#94a3b8;border-bottom:1px solid #e2e8f0;padding-bottom:.5rem}
+.cal-wd .su{color:#ef4444}.cal-wd .sa{color:#3b82f6}
+.day{background:#fff;border:1px solid #e2e8f0;border-radius:.5rem;padding:.5rem;min-height:100px;display:flex;flex-direction:column;gap:.25rem}
+.day.off{background:#f8fafc80;border-color:#f1f5f9}
+.day.today{border-color:#6366f1;box-shadow:0 0 0 1px #6366f1}
+.day-h{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;font-weight:600;color:#334155}
+.day.today .day-h span:first-child{background:#4f46e5;color:#fff;border-radius:9999px;padding:0 .45rem}
+.day-n{background:#4f46e5;color:#fff;font-size:9px;padding:.05rem .4rem;border-radius:9999px}
+.day-b{overflow-y:auto;max-height:80px;display:grid;gap:.25rem;align-content:start}
+.ct{display:block;width:100%;text-align:left;font-family:inherit;font-size:10px;padding:.25rem;border-radius:.25rem;border:1px solid #c7d2fe;background:#eef2ff;color:#4338ca;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct:hover{box-shadow:0 1px 3px #0003}
+.ct-urg{background:#fef2f2;border-color:#fecaca;color:#b91c1c;font-weight:700}
+.ct-done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;opacity:.75;font-weight:400}
 /* modal */
 .modal{position:fixed;inset:0;background:#0f172a80;z-index:50;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal.open{display:flex}
@@ -136,6 +159,9 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-sync" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+<symbol id="i-chl" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-chr" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 </svg>
 
@@ -148,7 +174,7 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
   <div class="acts">
    <button class="cloud-pill" id="cloud-status" type="button"></button>
    <button class="btn b-indigo" data-act="refresh" title="ซิงก์ข้อมูลตอนนี้"><svg class="i"><use href="#i-sync"/></svg></button>
-   <a class="nav" href="index.html">&larr; หน้าแรก</a>
+   <a class="nav" href="BriefGen.html">&larr; หน้า BriefGen</a>
    <button class="btn b-emerald" data-act="add"><svg class="i"><use href="#i-plus"/></svg> เพิ่มงานใหม่</button>
    <div class="sep"></div>
    <button class="btn b-slate" data-act="csv" title="ส่งออกไฟล์ CSV"><svg class="i"><use href="#i-file"/></svg> CSV</button>
@@ -179,6 +205,7 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
   <div class="tabs">
    <button class="tab on" data-view="kanban"><svg class="i"><use href="#i-cols"/></svg> Kanban Board</button>
    <button class="tab" data-view="table"><svg class="i"><use href="#i-list"/></svg> Table View</button>
+   <button class="tab" data-view="calendar"><svg class="i"><use href="#i-cal"/></svg> Calendar</button>
   </div>
  </section>
 
@@ -193,6 +220,20 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
     <tbody id="table-body"></tbody>
    </table>
   </div>
+ </section>
+ <section id="view-calendar" class="box cal hidden">
+  <div class="cal-h">
+   <h2 id="cal-title"></h2>
+   <div class="cal-nav">
+    <button type="button" data-cal="-1"><svg class="i"><use href="#i-chl"/></svg> เดือนก่อน</button>
+    <button type="button" data-cal="0">เดือนนี้</button>
+    <button type="button" data-cal="1">เดือนถัดไป <svg class="i"><use href="#i-chr"/></svg></button>
+   </div>
+  </div>
+  <div class="cal-scroll"><div class="cal-in">
+   <div class="cal-wd"><div class="su">อาทิตย์</div><div>จันทร์</div><div>อังคาร</div><div>พุธ</div><div>พฤหัสบดี</div><div>ศุกร์</div><div class="sa">เสาร์</div></div>
+   <div class="cal-grid" id="cal-grid"></div>
+  </div></div>
  </section>
 </main>
 
@@ -300,9 +341,13 @@ const fmtDate = s => {
 };
 const pClass = p => p === 'Urgent' ? 'p-Urgent' : p === 'High / Campaign' ? 'p-High' : p === 'Medium' ? 'p-Medium' : '';
 
+// เงื่อนไขค้นหา/กรองความสำคัญ ใช้ร่วมกันทั้ง Kanban, Table และ Calendar
+const filters = () => ({ q: $('searchInput').value.toLowerCase(), fp: $('filterPriority').value });
+const passes = (t, f) => (!f.fp || t.priority === f.fp) &&
+ (!f.q || (t.title || '').toLowerCase().includes(f.q) || (t.requester || '').toLowerCase().includes(f.q) || (t.assignee || '').toLowerCase().includes(f.q));
+
 function render() {
- const q = $('searchInput').value.toLowerCase();
- const fp = $('filterPriority').value;
+ const f = filters();
  const groups = STATUSES.map(() => []);
  const rows = [];
  let progress = 0, urgent = 0, done = 0;
@@ -312,8 +357,7 @@ function render() {
   else if (t.status === 'Completed') done++;
   if (t.priority === 'Urgent') urgent++;
 
-  if (fp && t.priority !== fp) continue;
-  if (q && !((t.title || '').toLowerCase().includes(q) || (t.requester || '').toLowerCase().includes(q) || (t.assignee || '').toLowerCase().includes(q))) continue;
+  if (!passes(t, f)) continue;
 
   const id = esc(t.id), title = esc(t.title), req = esc(t.requester || '-'), asg = esc(t.assignee || '-');
   const pb = `badge ${pClass(t.priority)}`, date = fmtDate(t.deadline);
@@ -352,14 +396,50 @@ function render() {
  $('kpi-progress').textContent = progress;
  $('kpi-urgent').textContent = urgent;
  $('kpi-completed').textContent = done;
+ if (!$('view-calendar').classList.contains('hidden')) renderCalendar();
 }
 
 // ----- view switch -----
 function switchView(v) {
- const k = v === 'kanban';
- $('view-kanban').classList.toggle('hidden', !k);
- $('view-table').classList.toggle('hidden', k);
+ ['kanban', 'table', 'calendar'].forEach(n => $('view-' + n).classList.toggle('hidden', n !== v));
  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === v));
+ if (v === 'calendar') renderCalendar();
+}
+
+// ----- calendar -----
+const TH_MONTHS = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+let calDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+function renderCalendar() {
+ const f = filters(), y = calDate.getFullYear(), m = calDate.getMonth();
+ const prefix = `${y}-${p2(m + 1)}-`;
+ $('cal-title').textContent = `${TH_MONTHS[m]} ${y + 543}`;
+
+ const byDay = {};                                       // จัดงานลงวันตาม deadline (รูปแบบ YYYY-MM-DDTHH:mm)
+ for (const t of tasks) {
+  if (!t.deadline || !t.deadline.startsWith(prefix) || !passes(t, f)) continue;
+  (byDay[t.deadline.slice(8, 10)] ||= []).push(t);
+ }
+ const now = new Date(), today = `${now.getFullYear()}-${p2(now.getMonth() + 1)}-${p2(now.getDate())}`;
+ const cells = [];
+ for (let i = new Date(y, m, 1).getDay(); i > 0; i--) cells.push('<div class="day off"></div>');
+ for (let d = 1, n = new Date(y, m + 1, 0).getDate(); d <= n; d++) {
+  const key = p2(d), list = (byDay[key] || []).sort((a, b) => a.deadline < b.deadline ? -1 : 1);
+  const chips = list.map(t => {
+   const cls = t.status === 'Completed' ? ' ct-done' : t.priority === 'Urgent' ? ' ct-urg' : '';
+   const tm = t.deadline.slice(11, 16), title = esc(t.title);
+   return `<button type="button" class="ct${cls}" data-act="edit" data-id="${esc(t.id)}" title="${title}${tm ? ' · ' + tm : ''}">${tm ? tm + ' ' : ''}${title}</button>`;
+  }).join('');
+  cells.push(`<div class="day${prefix + key === today ? ' today' : ''}"><div class="day-h"><span>${d}</span>${list.length ? `<span class="day-n">${list.length}</span>` : ''}</div><div class="day-b">${chips}</div></div>`);
+ }
+ while (cells.length % 7) cells.push('<div class="day off"></div>');
+ $('cal-grid').innerHTML = cells.join('');
+}
+// n = -1 / 1 เลื่อนเดือน, 0 = กลับเดือนปัจจุบัน (ตั้งวันที่ 1 เสมอ กันบั๊กข้ามเดือนตอนอยู่วันที่ 29-31)
+function moveMonth(n) {
+ const base = n ? calDate : new Date();
+ calDate = new Date(base.getFullYear(), base.getMonth() + n, 1);
+ renderCalendar();
 }
 
 // ----- modal -----
@@ -492,8 +572,9 @@ $('importFile').addEventListener('change', async e => {
 
 // ----- events (delegation) -----
 document.addEventListener('click', e => {
- const b = e.target.closest('[data-act],[data-view]');
+ const b = e.target.closest('[data-act],[data-view],[data-cal]');
  if (b) {
+  if (b.dataset.cal !== undefined) return moveMonth(+b.dataset.cal);
   if (b.dataset.view) return switchView(b.dataset.view);
   const id = b.dataset.id;
   switch (b.dataset.act) {
