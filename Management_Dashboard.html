@@ -3,141 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Graphic Task Management Dashboard</title>
+<title>Graphic Task Dashboard</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--pri:#4f46e5;--soft:#eef2ff;--hd:#312e81;--hd2:#4f46e5;--in:#fff}
+[data-theme=dark]{--bg:#0b1020;--card:#151b2e;--tx:#e5e9f5;--mu:#94a3b8;--bd:#263049;--soft:#1f2747;--hd:#14123a;--hd2:#312e81;--in:#0f1424}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh;line-height:1.5}
+body{margin:0;font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
 h1,h3,h4,p{margin:0}
-button{font:inherit;cursor:pointer;border:0;background:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.125em;flex:none}
 .hidden{display:none!important}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#f1f5f9}
-::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
-header{background:#3730a3;color:#fff;box-shadow:0 2px 6px #0003;position:sticky;top:0;z-index:40}
-.bar{max-width:80rem;margin:0 auto;padding:.75rem 1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
-.brand{display:flex;align-items:center;gap:.75rem}
-.brand>.i{font-size:1.5rem;color:#facc15}
-.brand h1{font-size:1.125rem;font-weight:700;letter-spacing:.025em}
-.brand p{font-size:.75rem;color:#c7d2fe}
-.acts{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
-.sep{height:1.25rem;width:1px;background:#4f46e5;margin:0 .25rem}
-.btn{color:#fff;padding:.375rem .75rem;border-radius:.5rem;font-size:.875rem;font-weight:600;box-shadow:0 1px 3px #0004;display:inline-flex;align-items:center;gap:.5rem;transition:filter .15s}
-.btn:hover{filter:brightness(.88)}
-.nav{color:#c7d2fe;font-size:.875rem;font-weight:600;text-decoration:none}.nav:hover{color:#fff}
-.b-emerald{background:#059669}.b-indigo{background:#4f46e5}.b-slate{background:#334155}.b-green{background:#16a34a}
-main{max-width:80rem;margin:0 auto;padding:1rem;display:grid;gap:1.5rem}
-@media(min-width:768px){main{padding:1.5rem}}
-.box{background:#fff;border-radius:.75rem;border:1px solid #e2e8f0;box-shadow:0 1px 2px #0001}
-/* KPI */
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-@media(min-width:768px){.kpis{grid-template-columns:repeat(4,1fr)}}
-.kpi{padding:1rem;display:flex;align-items:center;gap:1rem}
-.kpi .ic{width:3rem;height:3rem;border-radius:.5rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
-.kpi small{font-size:.75rem;color:#94a3b8;font-weight:600;display:block}
-.kpi b{font-size:1.25rem;font-weight:700}
-/* controls */
-.ctl{padding:1rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
-.ctl-l{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;flex:1}
-.search{position:relative;flex:1;min-width:240px}
-.search .i{position:absolute;left:.75rem;top:.75rem;color:#94a3b8;font-size:.875rem}
-input,select{font:inherit;font-size:.875rem;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem .75rem;background:#fff;outline:0}
-.search input{width:100%;padding-left:2.25rem}
-input:focus,select:focus{box-shadow:0 0 0 2px #6366f1;border-color:transparent}
-.tabs{display:flex;background:#f1f5f9;padding:.25rem;border-radius:.5rem;border:1px solid #e2e8f0}
-.tab{padding:.375rem .75rem;border-radius:.375rem;font-size:.75rem;font-weight:600;color:#475569;display:inline-flex;align-items:center;gap:.25rem}
-.tab.on{background:#fff;color:#4338ca;box-shadow:0 1px 2px #0002}
-/* kanban */
-#view-kanban{display:grid;grid-template-columns:1fr;gap:1rem;align-items:start}
+header{background:linear-gradient(120deg,var(--hd),var(--hd2));color:#fff;box-shadow:0 2px 10px #0004;position:sticky;top:0;z-index:40}
+.bar{max-width:84rem;margin:0 auto;padding:.7rem 1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
+.brand{display:flex;align-items:center;gap:.7rem}.brand>.i{font-size:1.6rem;color:#facc15}
+.brand h1{font-size:1.1rem;font-weight:700}.brand p{font-size:.75rem;color:#c7d2fe}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
+.sep{height:1.25rem;width:1px;background:#fff4;margin:0 .2rem}
+.btn{color:#fff;background:#ffffff22;padding:.4rem .7rem;border-radius:.5rem;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:background .15s}
+.btn:hover{background:#ffffff40}.btn.main{background:#10b981}.btn.main:hover{background:#059669}
+.nav{color:#c7d2fe;font-size:.85rem;font-weight:600;text-decoration:none}.nav:hover{color:#fff}
+header select{background:#ffffff22;color:#fff;border:0;border-radius:.5rem;padding:.4rem .5rem;font-size:.85rem}
+header select option{color:#000}
+main{max-width:84rem;margin:0 auto;padding:1rem;display:grid;gap:1.1rem}
+.box{background:var(--card);border-radius:.8rem;border:1px solid var(--bd);box-shadow:0 1px 3px #0001}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(5,1fr)}}
+.kpi{padding:.9rem;display:flex;align-items:center;gap:.8rem;text-align:left;width:100%;transition:transform .12s,box-shadow .12s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 4px 12px #0002}
+.kpi .ic{width:2.8rem;height:2.8rem;border-radius:.6rem;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.kpi small{font-size:.72rem;color:var(--mu);font-weight:600;display:block}
+.kpi b{font-size:1.4rem;font-weight:700;color:var(--c);line-height:1.2}
+.kpi i{font-size:.72rem;color:var(--mu);font-style:normal;margin-left:.3rem}
+.ctl{padding:.9rem;display:grid;gap:.7rem}
+.ctl-r{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+.search{position:relative;flex:1;min-width:220px}
+.search .i{position:absolute;left:.75rem;top:.7rem;color:var(--mu);font-size:.9rem}
+input,select{font:inherit;font-size:.85rem;color:var(--tx);border:1px solid var(--bd);border-radius:.5rem;padding:.45rem .7rem;background:var(--in);outline:0}
+.search input{width:100%;padding-left:2.2rem}
+input:focus,select:focus{box-shadow:0 0 0 2px var(--pri);border-color:transparent}
+.chk{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--mu);cursor:pointer}
+.chk input{accent-color:#dc2626}
+.lnk{color:var(--pri);font-size:.82rem;font-weight:600}.lnk:hover{text-decoration:underline}
+.tabs{display:flex;background:var(--bg);padding:.2rem;border-radius:.5rem;border:1px solid var(--bd);margin-left:auto}
+.tab{padding:.35rem .8rem;border-radius:.4rem;font-size:.8rem;font-weight:600;color:var(--mu);display:inline-flex;align-items:center;gap:.3rem}
+.tab.on{background:var(--card);color:var(--pri);box-shadow:0 1px 3px #0003}
+#view-kanban{display:grid;grid-template-columns:1fr;gap:.9rem;align-items:start}
 @media(min-width:768px){#view-kanban{grid-template-columns:1fr 1fr}}
-@media(min-width:1024px){#view-kanban{grid-template-columns:repeat(4,1fr)}}
-.col{border-radius:.75rem;padding:.75rem;border:1px solid var(--bd);background:var(--bg)}
-.col-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;padding:0 .25rem}
-.col-h h3{font-weight:700;color:var(--tx);font-size:.875rem;display:flex;align-items:center;gap:.5rem}
-.col-h h3 i{width:.625rem;height:.625rem;border-radius:50%;background:var(--dot)}
-.col-h span{font-size:.75rem;background:#fff;color:var(--tx);font-weight:700;padding:.125rem .5rem;border-radius:9999px;box-shadow:0 1px 2px #0002}
-.col-b{display:grid;gap:.75rem;min-height:300px;align-content:start}
-.col-b.over{outline:2px dashed #818cf8;outline-offset:2px;border-radius:.5rem}
-.task{background:#fff;padding:.875rem;border-radius:.75rem;box-shadow:0 1px 2px #0002;border:1px solid #e2e8f0;display:grid;gap:.5rem;cursor:grab;transition:box-shadow .15s}
-.task:hover{box-shadow:0 2px 6px #0003}
-.task:active{cursor:grabbing}
-.task.dragging{opacity:.4}
-.task-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
-.task-top div{display:flex;gap:.25rem}
-.ib{color:#94a3b8;font-size:.75rem;padding:.125rem}
-.ib.e:hover{color:#4f46e5}.ib.d:hover{color:#dc2626}
-.task h4{font-weight:700;font-size:.875rem;line-height:1.35;overflow-wrap:anywhere}
-.task-meta{font-size:11px;color:#64748b;display:grid;gap:.25rem;padding-top:.25rem;border-top:1px solid #f1f5f9}
-.task-meta .i{color:#94a3b8;margin-right:.25rem}
-.task-meta b{color:#334155}
-.badge{font-size:10px;padding:.125rem .5rem;border-radius:9999px;background:#f1f5f9;color:#334155}
-.p-Urgent{background:#fee2e2;color:#b91c1c;font-weight:700}
-.p-High{background:#ffedd5;color:#c2410c}
-.p-Medium{background:#dbeafe;color:#1d4ed8}
-/* table */
-#view-table{overflow:hidden}
+@media(min-width:1100px){#view-kanban{grid-template-columns:repeat(4,1fr)}}
+.col{border-radius:.8rem;padding:.7rem;border:1px solid color-mix(in srgb,var(--c) 30%,var(--bd));background:color-mix(in srgb,var(--c) 7%,var(--card))}
+.col-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:0 .2rem;border-bottom:2px solid var(--c);padding-bottom:.5rem}
+.col-h h3{font-weight:700;color:var(--c);font-size:.9rem}
+.col-h span{font-size:.75rem;background:var(--c);color:#fff;font-weight:700;padding:.05rem .55rem;border-radius:9999px}
+.col-b{display:grid;gap:.65rem;min-height:200px;align-content:start;border-radius:.5rem}
+.col-b.over{outline:2px dashed var(--pri);outline-offset:2px}
+.ph{text-align:center;color:var(--mu);font-size:.8rem;padding:1rem;opacity:.6}
+.task{--pc:#94a3b8;background:var(--card);padding:.8rem;border-radius:.7rem;box-shadow:0 1px 3px #0002;border:1px solid var(--bd);border-left:4px solid var(--pc);display:grid;gap:.45rem;cursor:grab;transition:box-shadow .15s,transform .15s}
+.task[data-p=Urgent]{--pc:#ef4444}.task[data-p=Medium]{--pc:#3b82f6}.task[data-p="High / Campaign"]{--pc:#f97316}
+.task:hover{box-shadow:0 4px 12px #0003;transform:translateY(-1px)}
+.task.dragging{opacity:.4}.task.late{background:color-mix(in srgb,#ef4444 6%,var(--card))}
+.task-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.task-top div{display:flex;gap:.15rem}
+.ib{color:var(--mu);font-size:.8rem;padding:.2rem;border-radius:.3rem}.ib.e:hover{color:var(--pri);background:var(--soft)}.ib.d:hover{color:#dc2626;background:#fee2e2}
+.task h4{font-weight:700;font-size:.88rem;line-height:1.35;overflow-wrap:anywhere}
+.meta{font-size:.75rem;color:var(--mu);display:grid;gap:.25rem;padding-top:.4rem;border-top:1px solid var(--bd)}
+.meta .i{margin-right:.3rem}
+.av{display:inline-flex;width:1.25rem;height:1.25rem;border-radius:50%;background:var(--pri);color:#fff;font-size:.65rem;font-weight:700;align-items:center;justify-content:center;margin-right:.3rem;vertical-align:middle}
+.badge{font-size:.68rem;padding:.1rem .55rem;border-radius:9999px;background:var(--bg);color:var(--mu);font-weight:600;white-space:nowrap}
+.p-Urgent{background:#fee2e2;color:#b91c1c}.p-High{background:#ffedd5;color:#c2410c}.p-Medium{background:#dbeafe;color:#1d4ed8}
+.dl-chip{font-size:.68rem;font-weight:700;padding:.05rem .45rem;border-radius:9999px;margin-left:.3rem;background:#fef3c7;color:#b45309}
+.dl-chip.bad{background:#fee2e2;color:#b91c1c}.dl-chip.ok{display:none}
+.mv{font-size:.72rem;font-weight:600;color:var(--pri);background:var(--soft);padding:.25rem .5rem;border-radius:.4rem;justify-self:start}.mv:hover{filter:brightness(.95)}
 .tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;text-align:left;font-size:.875rem}
-thead{background:#f8fafc;color:#475569;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
-th,td{padding:.75rem}
-th{border-bottom:1px solid #e2e8f0;font-weight:600}
-td{border-top:1px solid #f1f5f9;color:#334155}
-tbody tr:first-child td{border-top:0}
-tbody tr:hover{background:#f8fafc}
-td.t{font-weight:600;color:#1e293b}
-td small{font-size:.75rem;color:#94a3b8}
-td .badge{font-size:.75rem;padding:.25rem .625rem}
-td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding:.25rem .5rem;border-radius:.25rem}
-.c{text-align:center}
-.empty{padding:1.5rem;text-align:center;color:#94a3b8}
-/* calendar */
-.cal{padding:1.5rem;display:grid;gap:1rem}
-.cal-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
-.cal-h h2{font-size:1.125rem;font-weight:700;margin:0}
-.cal-nav{display:flex;flex-wrap:wrap;gap:.5rem}
-.cal-nav button{border:1px solid #cbd5e1;border-radius:.5rem;padding:.375rem .75rem;font-size:.875rem;font-weight:600;color:#334155;background:#fff;display:inline-flex;align-items:center;gap:.25rem}
-.cal-nav button:hover{background:#f8fafc}
-.cal-scroll{overflow-x:auto}
-.cal-in{min-width:640px;display:grid;gap:.5rem}
-.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.5rem}
-.cal-wd{text-align:center;font-weight:700;font-size:.75rem;color:#94a3b8;border-bottom:1px solid #e2e8f0;padding-bottom:.5rem}
-.cal-wd .su{color:#ef4444}.cal-wd .sa{color:#3b82f6}
-.day{background:#fff;border:1px solid #e2e8f0;border-radius:.5rem;padding:.5rem;min-height:100px;display:flex;flex-direction:column;gap:.25rem}
-.day.off{background:#f8fafc80;border-color:#f1f5f9}
-.day.today{border-color:#6366f1;box-shadow:0 0 0 1px #6366f1}
-.day-h{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;font-weight:600;color:#334155}
-.day.today .day-h span:first-child{background:#4f46e5;color:#fff;border-radius:9999px;padding:0 .45rem}
-.day-n{background:#4f46e5;color:#fff;font-size:9px;padding:.05rem .4rem;border-radius:9999px}
-.day-b{overflow-y:auto;max-height:80px;display:grid;gap:.25rem;align-content:start}
-.ct{display:block;width:100%;text-align:left;font-family:inherit;font-size:10px;padding:.25rem;border-radius:.25rem;border:1px solid #c7d2fe;background:#eef2ff;color:#4338ca;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ct:hover{box-shadow:0 1px 3px #0003}
-.ct-urg{background:#fef2f2;border-color:#fecaca;color:#b91c1c;font-weight:700}
-.ct-done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;opacity:.75;font-weight:400}
-/* modal */
-.modal{position:fixed;inset:0;background:#0f172a80;z-index:50;display:none;align-items:center;justify-content:center;padding:1rem}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead{background:var(--bg);color:var(--mu);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+th,td{padding:.7rem;text-align:left}
+th[data-sort]{cursor:pointer;user-select:none;white-space:nowrap}th[data-sort]:hover{color:var(--pri)}
+th.asc::after{content:' ▲'}th.desc::after{content:' ▼'}
+td{border-top:1px solid var(--bd)}tbody tr:hover{background:var(--soft)}
+td.t{font-weight:600}td small{color:var(--mu)}
+.st{font-weight:600;font-size:.75rem;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);padding:.2rem .55rem;border-radius:.3rem;white-space:nowrap}
+.c{text-align:center;white-space:nowrap}.empty{padding:1.5rem;text-align:center;color:var(--mu)}
+.cal{padding:1.2rem;display:grid;gap:1rem}
+.cal-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.7rem}
+.cal-h h2{font-size:1.1rem;margin:0}
+.cal-nav{display:flex;gap:.4rem}
+.cal-nav button{border:1px solid var(--bd);border-radius:.5rem;padding:.35rem .7rem;font-size:.82rem;font-weight:600;background:var(--card)}.cal-nav button:hover{background:var(--soft)}
+.cal-scroll{overflow-x:auto}.cal-in{min-width:640px;display:grid;gap:.5rem}
+.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.4rem}
+.cal-wd{text-align:center;font-weight:700;font-size:.75rem;color:var(--mu)}.cal-wd .su{color:#ef4444}.cal-wd .sa{color:#3b82f6}
+.day{background:var(--card);border:1px solid var(--bd);border-radius:.5rem;padding:.4rem;min-height:100px;display:flex;flex-direction:column;gap:.2rem;position:relative}
+.day.off{background:transparent;border-color:transparent}
+.day.today{border-color:var(--pri);box-shadow:0 0 0 1px var(--pri)}
+.day-h{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;font-weight:600}
+.day.today .day-h span:first-child{background:var(--pri);color:#fff;border-radius:9999px;padding:0 .45rem}
+.dadd{position:absolute;right:.3rem;top:1.3rem;opacity:0;font-size:.8rem;color:var(--pri);background:var(--soft);border-radius:50%;width:1.2rem;height:1.2rem;display:flex;align-items:center;justify-content:center}
+.day:hover .dadd{opacity:1}
+.day-b{overflow-y:auto;max-height:80px;display:grid;gap:.2rem;align-content:start}
+.ct{display:block;width:100%;text-align:left;font-size:.65rem;padding:.2rem .3rem;border-radius:.25rem;border:1px solid #c7d2fe;background:var(--soft);color:var(--pri);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-urg{background:#fee2e2;border-color:#fecaca;color:#b91c1c;font-weight:700}
+.ct-done{background:#d1fae5;border-color:#a7f3d0;color:#047857;opacity:.7}
+.modal{position:fixed;inset:0;background:#0f172a99;z-index:50;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(2px)}
 .modal.open{display:flex}
-.dlg{background:#fff;border-radius:1rem;box-shadow:0 20px 25px #0004;width:100%;max-width:32rem;overflow:hidden;border:1px solid #e2e8f0}
-.dlg-h{background:#4338ca;color:#fff;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
-.dlg-h h3{font-weight:700;font-size:1rem;display:flex;align-items:center;gap:.5rem}
-.dlg-h button{color:#c7d2fe;font-size:1.125rem}.dlg-h button:hover{color:#fff}
-.dlg form{padding:1.5rem;display:grid;gap:1rem;font-size:.875rem}
-.dlg label{display:block;color:#475569;font-weight:600}
-.dlg label .r{color:#ef4444}
+.dlg{background:var(--card);border-radius:1rem;box-shadow:0 20px 40px #0006;width:100%;max-width:34rem;overflow:hidden;border:1px solid var(--bd)}
+.dlg-h{background:linear-gradient(120deg,var(--hd),var(--hd2));color:#fff;padding:.9rem 1.3rem;display:flex;justify-content:space-between;align-items:center}
+.dlg-h h3{font-size:1rem;display:flex;align-items:center;gap:.5rem}
+.dlg-h button{color:#c7d2fe;font-size:1.1rem}.dlg-h button:hover{color:#fff}
+.dlg form{padding:1.3rem;display:grid;gap:.9rem;font-size:.85rem}
+.dlg label{display:block;color:var(--mu);font-weight:600}
+.req::after{content:' *';color:#ef4444}
 .dlg input,.dlg select{display:block;width:100%;margin-top:.25rem;font-weight:400}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.foot{padding-top:.75rem;display:flex;justify-content:flex-end;gap:.5rem;border-top:1px solid #e2e8f0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+@media(max-width:480px){.row{grid-template-columns:1fr}}
+.foot{padding-top:.8rem;display:flex;justify-content:flex-end;gap:.5rem;border-top:1px solid var(--bd)}
 .foot button{padding:.5rem 1rem;border-radius:.5rem;font-weight:600}
-.cancel{border:1px solid #cbd5e1;color:#475569}.cancel:hover{background:#f8fafc}
-.dl{display:grid;gap:.625rem;padding:1.5rem;font-size:.875rem;max-height:70vh;overflow:auto;margin:0}
-.dl div{border-bottom:1px solid #f1f5f9;padding-bottom:.5rem}
-.dl dt{font-size:.75rem;font-weight:700;color:#64748b}
-.dl dd{margin:0;white-space:pre-line;overflow-wrap:anywhere;color:#1e293b}
-.ok{background:#4f46e5;color:#fff;box-shadow:0 1px 3px #0004}.ok:hover{background:#4338ca}
+.cancel{border:1px solid var(--bd)}.cancel:hover{background:var(--soft)}
+.ok{background:var(--pri);color:#fff}.ok:hover{filter:brightness(.9)}
+.dl{display:grid;gap:.6rem;padding:1.3rem;font-size:.85rem;max-height:70vh;overflow:auto;margin:0}
+.dl div{border-bottom:1px solid var(--bd);padding-bottom:.5rem}
+.dl dt{font-size:.72rem;font-weight:700;color:var(--mu)}.dl dd{margin:0;white-space:pre-line;overflow-wrap:anywhere}
+#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,200%);background:#1e293b;color:#fff;padding:.6rem 1rem;border-radius:.6rem;box-shadow:0 6px 20px #0006;display:flex;gap:.9rem;align-items:center;font-size:.85rem;z-index:60;transition:transform .25s}
+#toast.show{transform:translate(-50%,0)}#toast button{color:#facc15;font-weight:700}
+@media(max-width:640px){.lb{display:none}}
 </style>
 </head>
 <body>
@@ -163,115 +154,93 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
 <symbol id="i-chl" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
 <symbol id="i-chr" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
 </svg>
 
-<header>
- <div class="bar">
-  <div class="brand">
-   <svg class="i"><use href="#i-pie"/></svg>
-   <div><h1>Graphic Task Management Dashboard</h1><p>ระบบติดตามและบริหารจัดการคิวงานกราฟิกภาพรวม</p></div>
-  </div>
-  <div class="acts">
-   <button class="cloud-pill" id="cloud-status" type="button"></button>
-   <button class="btn b-indigo" data-act="refresh" title="ซิงก์ข้อมูลตอนนี้"><svg class="i"><use href="#i-sync"/></svg></button>
-   <a class="nav" href="index.html">&larr; หน้าแรก</a>
-   <button class="btn b-emerald" data-act="add"><svg class="i"><use href="#i-plus"/></svg> เพิ่มงานใหม่</button>
-   <div class="sep"></div>
-   <button class="btn b-slate" data-act="csv" title="ส่งออกไฟล์ CSV"><svg class="i"><use href="#i-file"/></svg> CSV</button>
-   <button class="btn b-green" data-act="xlsx" title="ส่งออกไฟล์ Excel"><svg class="i"><use href="#i-grid"/></svg> Excel</button>
-   <div class="sep"></div>
-   <button class="btn b-indigo" data-act="backup" title="สำรองข้อมูลทั้งหมดเป็นไฟล์ .json (พร้อมรายละเอียดบรีฟ)"><svg class="i"><use href="#i-file"/></svg> สำรอง</button>
-   <button class="btn b-indigo" data-act="import" title="นำเข้าไฟล์ .json ที่สำรองไว้ (รวมกับข้อมูลเดิม)"><svg class="i"><use href="#i-plus"/></svg> นำเข้า</button>
-   <input type="file" id="importFile" accept=".json,application/json" class="hidden">
-  </div>
- </div>
-</header>
+<header><div class="bar">
+ <div class="brand"><svg class="i"><use href="#i-pie"/></svg>
+  <div><h1 data-i="title"></h1><p data-i="sub"></p></div></div>
+ <div class="acts">
+  <button class="cloud-pill" id="cloud-status" type="button"></button>
+  <select id="lang" aria-label="Language"><option value="th">🇹🇭 ไทย</option><option value="en">🇬🇧 English</option></select>
+  <button class="btn" data-act="theme" data-ti="theme"><svg class="i"><use href="#i-moon"/></svg></button>
+  <button class="btn" data-act="refresh" data-ti="sync"><svg class="i"><use href="#i-sync"/></svg></button>
+  <a class="nav" href="index.html">&larr; <span data-i="home"></span></a>
+  <button class="btn main" data-act="add"><svg class="i"><use href="#i-plus"/></svg><span data-i="add"></span></button>
+  <div class="sep"></div>
+  <button class="btn" data-act="csv" data-ti="csvT"><svg class="i"><use href="#i-file"/></svg><span class="lb">CSV</span></button>
+  <button class="btn" data-act="xlsx" data-ti="xlsxT"><svg class="i"><use href="#i-grid"/></svg><span class="lb">Excel</span></button>
+  <button class="btn" data-act="backup" data-ti="backupT"><svg class="i"><use href="#i-file"/></svg><span class="lb" data-i="backup"></span></button>
+  <button class="btn" data-act="import" data-ti="impT"><svg class="i"><use href="#i-plus"/></svg><span class="lb" data-i="imp"></span></button>
+  <input type="file" id="importFile" accept=".json,application/json" class="hidden">
+ </div></div></header>
 
 <main>
  <section class="kpis">
-  <div class="box kpi"><div class="ic" style="background:#eef2ff;color:#4f46e5"><svg class="i"><use href="#i-layers"/></svg></div><div><small>งานทั้งหมด (Total)</small><b id="kpi-total">0</b></div></div>
-  <div class="box kpi"><div class="ic" style="background:#fffbeb;color:#d97706"><svg class="i"><use href="#i-spin"/></svg></div><div><small>กำลังดำเนินการ (In Progress)</small><b id="kpi-progress" style="color:#d97706">0</b></div></div>
-  <div class="box kpi"><div class="ic" style="background:#fef2f2;color:#dc2626"><svg class="i"><use href="#i-warn"/></svg></div><div><small>งานด่วนพิเศษ (Urgent)</small><b id="kpi-urgent" style="color:#dc2626">0</b></div></div>
-  <div class="box kpi"><div class="ic" style="background:#ecfdf5;color:#059669"><svg class="i"><use href="#i-check"/></svg></div><div><small>Completedสิ้นแล้ว (Completed)</small><b id="kpi-Completed" style="color:#059669">0</b></div></div>
+  <button class="box kpi" data-kf="" style="--c:#4f46e5"><div class="ic"><svg class="i"><use href="#i-layers"/></svg></div><div><small data-i="kTotal"></small><b id="k0">0</b></div></button>
+  <button class="box kpi" data-kf="s:In Progress" style="--c:#d97706"><div class="ic"><svg class="i"><use href="#i-spin"/></svg></div><div><small data-i="kProg"></small><b id="k1">0</b></div></button>
+  <button class="box kpi" data-kf="p:Urgent" style="--c:#dc2626"><div class="ic"><svg class="i"><use href="#i-warn"/></svg></div><div><small data-i="kUrg"></small><b id="k2">0</b></div></button>
+  <button class="box kpi" data-kf="late" style="--c:#e11d48"><div class="ic"><svg class="i"><use href="#i-clock"/></svg></div><div><small data-i="kLate"></small><b id="k3">0</b></div></button>
+  <button class="box kpi" data-kf="s:Completed" style="--c:#059669"><div class="ic"><svg class="i"><use href="#i-check"/></svg></div><div><small data-i="kDone"></small><b id="k4">0</b><i id="k5"></i></div></button>
  </section>
 
  <section class="box ctl">
-  <div class="ctl-l">
-   <div class="search"><svg class="i"><use href="#i-search"/></svg><input type="text" id="searchInput" placeholder="ค้นหาชื่องาน, ผู้ส่งบรีฟ, ผู้ดูแล..."></div>
-   <select id="filterPriority">
-    <option value="">ทุกระดับความสำคัญ</option><option>Normal</option><option>Medium</option><option>High / Campaign</option><option>Urgent</option>
-   </select>
+  <div class="ctl-r">
+   <div class="search"><svg class="i"><use href="#i-search"/></svg><input type="text" id="q" data-ph="search"></div>
+   <select id="fS"></select><select id="fP"></select><select id="fA"></select>
+   <select id="sortSel"></select>
   </div>
-  <div class="tabs">
-   <button class="tab on" data-view="kanban"><svg class="i"><use href="#i-cols"/></svg> Kanban Board</button>
-   <button class="tab" data-view="table"><svg class="i"><use href="#i-list"/></svg> Table View</button>
-   <button class="tab" data-view="calendar"><svg class="i"><use href="#i-cal"/></svg> Calendar</button>
+  <div class="ctl-r">
+   <label class="chk"><input type="checkbox" id="fLate"><span data-i="onlyLate"></span></label>
+   <button class="lnk" data-act="clear" data-i="clear"></button>
+   <div class="tabs">
+    <button class="tab on" data-view="kanban"><svg class="i"><use href="#i-cols"/></svg><span data-i="kanban"></span></button>
+    <button class="tab" data-view="table"><svg class="i"><use href="#i-list"/></svg><span data-i="table"></span></button>
+    <button class="tab" data-view="calendar"><svg class="i"><use href="#i-cal"/></svg><span data-i="cal"></span></button>
+   </div>
   </div>
  </section>
 
  <section id="view-kanban"></section>
-
- <section id="view-table" class="box hidden">
-  <div class="tw">
-   <table>
-    <thead><tr>
-     <th>ชื่องาน (Project Title)</th><th>ผู้ส่งบรีฟ</th><th>ความสำคัญ</th><th>สถานะ</th><th>กำหนดส่ง (Deadline)</th><th>ผู้ดูแล</th><th class="c">จัดการ</th>
-    </tr></thead>
-    <tbody id="table-body"></tbody>
-   </table>
-  </div>
- </section>
+ <section id="view-table" class="box hidden"><div class="tw"><table>
+  <thead><tr><th data-sort="title" data-i="fTitle"></th><th data-sort="requester" data-i="fReq"></th><th data-sort="priority" data-i="fPri"></th><th data-sort="status" data-i="fSt"></th><th data-sort="deadline" data-i="fDl"></th><th data-sort="assignee" data-i="fAs"></th><th class="c" data-i="acts"></th></tr></thead>
+  <tbody id="table-body"></tbody></table></div></section>
  <section id="view-calendar" class="box cal hidden">
-  <div class="cal-h">
-   <h2 id="cal-title"></h2>
+  <div class="cal-h"><h2 id="cal-title"></h2>
    <div class="cal-nav">
-    <button type="button" data-cal="-1"><svg class="i"><use href="#i-chl"/></svg> เดือนก่อน</button>
-    <button type="button" data-cal="0">เดือนนี้</button>
-    <button type="button" data-cal="1">เดือนถัดไป <svg class="i"><use href="#i-chr"/></svg></button>
-   </div>
-  </div>
-  <div class="cal-scroll"><div class="cal-in">
-   <div class="cal-wd"><div class="su">อาทิตย์</div><div>จันทร์</div><div>อังคาร</div><div>พุธ</div><div>พฤหัสบดี</div><div>ศุกร์</div><div class="sa">เสาร์</div></div>
-   <div class="cal-grid" id="cal-grid"></div>
-  </div></div>
+    <button type="button" data-cal="-1"><svg class="i"><use href="#i-chl"/></svg> <span data-i="prev"></span></button>
+    <button type="button" data-cal="0" data-i="today"></button>
+    <button type="button" data-cal="1"><span data-i="next"></span> <svg class="i"><use href="#i-chr"/></svg></button>
+   </div></div>
+  <div class="cal-scroll"><div class="cal-in"><div class="cal-wd" id="cal-wd"></div><div class="cal-grid" id="cal-grid"></div></div></div>
  </section>
 </main>
 
-<div id="taskModal" class="modal">
- <div class="dlg">
-  <div class="dlg-h">
-   <h3 id="modalTitle"></h3>
-   <button type="button" data-act="close" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+<div id="taskModal" class="modal"><div class="dlg">
+ <div class="dlg-h"><h3 id="modalTitle"></h3><button type="button" data-act="close" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+ <form id="taskForm">
+  <input type="hidden" id="taskId">
+  <label><span class="req" data-i="fTitle"></span><input type="text" id="formTitle" required></label>
+  <div class="row">
+   <label><span data-i="fReq"></span><input type="text" id="formRequester" list="dl-r"></label>
+   <label><span data-i="fDept"></span><input type="text" id="formDept" list="dl-d"></label>
   </div>
-  <form id="taskForm">
-   <input type="hidden" id="taskId">
-   <label>ชื่องาน / Project Title <span class="r">*</span><input type="text" id="formTitle" required></label>
-   <div class="row">
-    <label>ผู้ส่งบรีฟ (Requester)<input type="text" id="formRequester"></label>
-    <label>แผนก (Department)<input type="text" id="formDept"></label>
-   </div>
-   <div class="row">
-    <label>ความสำคัญ (Priority)<select id="formPriority"><option>Normal</option><option>Medium</option><option>High / Campaign</option><option>Urgent</option></select></label>
-    <label>สถานะ (Status)<select id="formStatus"><option>Pending Brief</option><option>In Queue</option><option>In Progress</option><option>Completed</option></select></label>
-   </div>
-   <div class="row">
-    <label>กำหนดส่ง (Deadline)<input type="datetime-local" id="formDeadline"></label>
-    <label>ผู้ดูแล/กราฟิก (Assignee)<input type="text" id="formAssignee"></label>
-   </div>
-   <div class="foot">
-    <button type="button" class="cancel" data-act="close">ยกเลิก</button>
-    <button type="submit" class="ok">บันทึกข้อมูล</button>
-   </div>
-  </form>
- </div>
-</div>
+  <div class="row">
+   <label><span data-i="fPri"></span><select id="formPriority"></select></label>
+   <label><span data-i="fSt"></span><select id="formStatus"></select></label>
+  </div>
+  <div class="row">
+   <label><span data-i="fDl"></span><input type="datetime-local" id="formDeadline"></label>
+   <label><span data-i="fAs"></span><input type="text" id="formAssignee" list="dl-a"></label>
+  </div>
+  <datalist id="dl-r"></datalist><datalist id="dl-d"></datalist><datalist id="dl-a"></datalist>
+  <div class="foot"><button type="button" class="cancel" data-act="close" data-i="cancel"></button><button type="submit" class="ok" data-i="save"></button></div>
+ </form></div></div>
 
-<div id="briefModal" class="modal">
- <div class="dlg">
-  <div class="dlg-h"><h3 id="briefTitle"></h3><button type="button" data-act="close" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
-  <dl class="dl" id="briefBody"></dl>
- </div>
-</div>
+<div id="briefModal" class="modal"><div class="dlg">
+ <div class="dlg-h"><h3 id="briefTitle"></h3><button type="button" data-act="close" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+ <dl class="dl" id="briefBody"></dl></div></div>
+<div id="toast"></div>
 
 <script src="cloud.js"></script>
 <script>
@@ -282,361 +251,344 @@ const KEY = 'graphic_tasks_db';
 const ic = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+// ===== i18n (เพิ่มภาษาใหม่ = เพิ่มอ็อบเจ็กต์ใน L + <option> ใน #lang) =====
+const L = {
+ th:{title:'แดชบอร์ดบริหารงานกราฟิก',sub:'ติดตามและบริหารคิวงานกราฟิกภาพรวม',home:'หน้าแรก',add:'เพิ่มงานใหม่',backup:'สำรอง',imp:'นำเข้า',
+  sync:'ซิงก์ข้อมูลตอนนี้',csvT:'ส่งออกไฟล์ CSV',xlsxT:'ส่งออกไฟล์ Excel',backupT:'สำรองข้อมูลทั้งหมดเป็น .json (พร้อมรายละเอียดบรีฟ)',impT:'นำเข้าไฟล์ .json ที่สำรองไว้ (รวมกับข้อมูลเดิม)',theme:'สลับโหมดมืด/สว่าง',
+  kTotal:'งานทั้งหมด',kProg:'กำลังดำเนินการ',kUrg:'งานด่วนพิเศษ',kLate:'เลยกำหนดส่ง',kDone:'เสร็จแล้ว',
+  search:'ค้นหาชื่องาน, ผู้ส่งบรีฟ, ผู้ดูแล, แผนก...  ( กด / )',allP:'ทุกความสำคัญ',allS:'ทุกสถานะ',allA:'ทุกผู้ดูแล',
+  byD:'เรียง: กำหนดส่ง',byP:'เรียง: ความสำคัญ',byT:'เรียง: ชื่องาน',onlyLate:'เฉพาะงานเลยกำหนด',clear:'ล้างตัวกรอง',
+  kanban:'บอร์ด',table:'ตาราง',cal:'ปฏิทิน',prev:'เดือนก่อน',today:'เดือนนี้',next:'เดือนถัดไป',
+  fTitle:'ชื่องาน',fReq:'ผู้ส่งบรีฟ',fDept:'แผนก',fPri:'ความสำคัญ',fSt:'สถานะ',fDl:'กำหนดส่ง',fAs:'ผู้ดูแล / กราฟิก',acts:'จัดการ',
+  none:'ไม่พบงานตามเงื่อนไข',gen:'ทั่วไป',asg:'ผู้ดูแล',editT:'แก้ไขข้อมูลงาน',addT:'เพิ่มงานใหม่',save:'บันทึกข้อมูล',cancel:'ยกเลิก',
+  deleted:'ลบงานแล้ว',undo:'เลิกทำ',late:'เลยมา',left:'เหลือ',d:'วัน',h:'ชม.',m:'นาที',moveTo:'ย้ายไป',view:'ดูบรีฟ',edit:'แก้ไข',del:'ลบ',
+  seed:'พบ {n} งานในเครื่องนี้ที่ยังไม่อยู่ใน Google Sheets\nอัปโหลดขึ้น Sheets ด้วยหรือไม่?\n\nถ้ากดยกเลิก งานเหล่านี้จะหายจากหน้านี้ (กดปุ่ม "สำรอง" เก็บไว้ก่อนได้)',
+  imp0:'ไม่พบข้อมูลงานในไฟล์นี้',impC:'นำเข้า {n} งาน (เพิ่มใหม่ {a}, อัปเดตงานเดิม {u})\nดำเนินการต่อหรือไม่?',impBad:'ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองจากระบบนี้',xErr:'โหลดไลบรารี Excel ไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่',
+  bo:'วัตถุประสงค์ (Objective)',bt:'กลุ่มเป้าหมาย (Target)',bh:'Headline',bs:'Sub-headline / Body',bc:'Call To Action',bd:'ขนาด (Dimensions)',bf:'ประเภทไฟล์ (Format)',br:'Mood & Tone / Reference',
+  p_Normal:'ปกติ',p_Medium:'ปานกลาง','p_High / Campaign':'สำคัญ / แคมเปญ',p_Urgent:'ด่วนพิเศษ',
+  's_Pending Brief':'รอบรีฟ','s_In Queue':'อยู่ในคิว','s_In Progress':'กำลังทำ',s_Completed:'เสร็จแล้ว'},
+ en:{title:'Graphic Task Dashboard',sub:'Track and manage the graphic design queue',home:'Home',add:'New task',backup:'Backup',imp:'Import',
+  sync:'Sync now',csvT:'Export CSV',xlsxT:'Export Excel',backupT:'Back up everything as .json (incl. brief details)',impT:'Import a .json backup (merged with existing data)',theme:'Toggle dark / light mode',
+  kTotal:'Total tasks',kProg:'In progress',kUrg:'Urgent',kLate:'Overdue',kDone:'Completed',
+  search:'Search title, requester, assignee, dept...  ( press / )',allP:'All priorities',allS:'All statuses',allA:'All assignees',
+  byD:'Sort: Deadline',byP:'Sort: Priority',byT:'Sort: Title',onlyLate:'Overdue only',clear:'Clear filters',
+  kanban:'Board',table:'Table',cal:'Calendar',prev:'Prev',today:'Today',next:'Next',
+  fTitle:'Project title',fReq:'Requester',fDept:'Department',fPri:'Priority',fSt:'Status',fDl:'Deadline',fAs:'Assignee',acts:'Actions',
+  none:'No matching tasks',gen:'General',asg:'Assignee',editT:'Edit task',addT:'New task',save:'Save',cancel:'Cancel',
+  deleted:'Task deleted',undo:'Undo',late:'Overdue',left:'Left',d:'d',h:'h',m:'m',moveTo:'Move to',view:'View brief',edit:'Edit',del:'Delete',
+  seed:'{n} task(s) on this device are not in Google Sheets yet.\nUpload them to Sheets too?\n\nIf you cancel they will disappear from this page (use "Backup" to keep a copy first).',
+  imp0:'No tasks found in this file',impC:'Import {n} task(s) ({a} new, {u} updated)?\nContinue?',impBad:'Invalid file. Please choose a .json exported from this app.',xErr:'Could not load the Excel library. Check your connection and retry.',
+  bo:'Objective',bt:'Target audience',bh:'Headline',bs:'Sub-headline / Body',bc:'Call To Action',bd:'Dimensions',bf:'File format',br:'Mood & Tone / Reference',
+  p_Normal:'Normal',p_Medium:'Medium','p_High / Campaign':'High / Campaign',p_Urgent:'Urgent',
+  's_Pending Brief':'Pending Brief','s_In Queue':'In Queue','s_In Progress':'In Progress',s_Completed:'Completed'}
+};
+let lang = localStorage.getItem('gfx_lang') || ((navigator.language || 'th').startsWith('en') ? 'en' : 'th');
+if (!L[lang]) lang = 'th';
+const t = k => L[lang][k] ?? L.th[k] ?? k;
+const S = k => t('s_' + k), P = k => t('p_' + k);
+
 const STATUSES = [
- { key:'Pending Brief', bg:'#e2e8f0b3', bd:'#cbd5e1', tx:'#334155', dot:'#94a3b8' },
- { key:'In Queue',      bg:'#eff6ffb3', bd:'#bfdbfe', tx:'#1d4ed8', dot:'#3b82f6' },
- { key:'In Progress',   bg:'#fffbebb3', bd:'#fde68a', tx:'#b45309', dot:'#f59e0b' },
- { key:'Completed',     bg:'#ecfdf5b3', bd:'#a7f3d0', tx:'#047857', dot:'#10b981' }
+ { key:'Pending Brief', c:'#64748b' }, { key:'In Queue', c:'#2563eb' },
+ { key:'In Progress', c:'#d97706' }, { key:'Completed', c:'#059669' }
 ];
+const PRI = ['Normal', 'Medium', 'High / Campaign', 'Urgent'];
+const BRIEF = [['objective','bo'],['target','bt'],['headline','bh'],['subHeadline','bs'],['cta','bc'],['dimensions','bd'],['fileType','bf'],['reference','br']];
 
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-let tasks = load();
-const save = () => localStorage.setItem(KEY, JSON.stringify(tasks));   // แคชในเครื่อง
+let tasks = load(), dragId = null, sk = 'deadline', sd = 1, undoTask = null;
+const save = () => localStorage.setItem(KEY, JSON.stringify(tasks));
 
-// ----- ซิงก์กับ Google Sheets (ถ้าเชื่อมต่อไว้) -----
-let dragId = null;
+// ===== Cloud sync (Google Sheets) =====
 async function cloudSync() {
  if (!Cloud.configured()) return;
- const before = tasks;
- const list = await Cloud.sync();
- if (!list) return;                                   // ล้มเหลว: คงข้อมูลในเครื่องไว้ ระบบจะลองใหม่เอง
+ const before = tasks, list = await Cloud.sync();
+ if (!list) return;
  const next = Cloud.overlay(list);
  if (JSON.stringify(next) !== JSON.stringify(tasks)) { tasks = next; save(); render(); }
  await seedLocal(before, list);
 }
-// ครั้งแรกที่เชื่อมต่อ: ถ้ามีงานในเครื่องที่ยังไม่อยู่ใน Sheets ให้เลือกว่าจะอัปโหลดหรือไม่
 async function seedLocal(before, list) {
  const url = Cloud.config().url;
  if (localStorage.getItem('gfx_seed') === url) return;
  localStorage.setItem('gfx_seed', url);
- const known = new Set(list.map(t => t.id));
- const only = before.filter(t => !known.has(t.id));
- if (!only.length) return;
- if (!confirm(`พบ ${only.length} งานในเครื่องนี้ที่ยังไม่อยู่ใน Google Sheets\nอัปโหลดขึ้น Sheets ด้วยหรือไม่?\n\nถ้ากดยกเลิก งานเหล่านี้จะหายจากหน้านี้ (กดปุ่ม "สำรอง" เก็บไว้ก่อนได้)`)) return;
- only.forEach(t => Cloud.enqueue({ type: 'upsert', task: t }));
+ const known = new Set(list.map(x => x.id)), only = before.filter(x => !known.has(x.id));
+ if (!only.length || !confirm(t('seed').replace('{n}', only.length))) return;
+ only.forEach(x => Cloud.enqueue({ type: 'upsert', task: x }));
  const l2 = await Cloud.sync();
  if (l2) { tasks = Cloud.overlay(l2); save(); render(); }
 }
-// บันทึกการเปลี่ยนแปลง: แคชในเครื่อง + (ถ้าเชื่อมต่อ) ส่งขึ้น Sheets
-function persist(...ops) {
- save();
- if (Cloud.configured()) { ops.forEach(o => Cloud.enqueue(o)); cloudSync(); }
+function persist(...ops) { save(); if (Cloud.configured()) { ops.forEach(o => Cloud.enqueue(o)); cloudSync(); } }
+
+// ===== helpers =====
+const p2 = n => String(n).padStart(2, '0');
+const fmtDate = s => { const d = s && new Date(s); return !d || isNaN(d) ? '-' : `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+(lang==='th'?543:0)} ${p2(d.getHours())}:${p2(d.getMinutes())}`; };
+const pClass = p => p === 'Urgent' ? 'p-Urgent' : p === 'High / Campaign' ? 'p-High' : p === 'Medium' ? 'p-Medium' : '';
+const isLate = x => x.status !== 'Completed' && x.deadline && new Date(x.deadline) < new Date();
+const initial = s => esc((s || '?').trim().charAt(0).toUpperCase() || '?');
+function dlChip(x) {                                      // ป้ายนับถอยหลัง/เลยกำหนด
+ if (!x.deadline || x.status === 'Completed') return '';
+ const ms = new Date(x.deadline) - Date.now(), a = Math.abs(ms) / 6e4;
+ const n = a < 60 ? [Math.max(1, Math.round(a)), 'm'] : a < 1440 ? [Math.round(a / 60), 'h'] : [Math.round(a / 1440), 'd'];
+ const soon = ms >= 0 && ms < 864e5;
+ if (ms >= 0 && !soon) return '';
+ return `<span class="dl-chip${ms < 0 ? ' bad' : ''}">${ms < 0 ? t('late') : t('left')} ${n[0]} ${t(n[1])}</span>`;
+}
+function toast(msg, act) {
+ const el = $('toast');
+ el.innerHTML = `<span>${esc(msg)}</span>` + (act ? `<button data-act="${act}">${esc(t('undo'))}</button>` : '');
+ el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 5000);
 }
 
-// สร้างคอลัมน์ Kanban จาก config (ไม่ต้องเขียน HTML ซ้ำ 4 ชุด)
-const board = $('view-kanban');
-board.innerHTML = STATUSES.map((s, i) => `
- <div class="col" style="--bg:${s.bg};--bd:${s.bd};--tx:${s.tx};--dot:${s.dot}">
-  <div class="col-h"><h3><i></i>${s.key}</h3><span id="cnt-${i}">0</span></div>
-  <div class="col-b" id="col-${i}" data-status="${s.key}"></div>
- </div>`).join('');
-const colEls = STATUSES.map((_, i) => $('col-' + i));
-const cntEls = STATUSES.map((_, i) => $('cnt-' + i));
-
-const p2 = n => String(n).padStart(2,'0');
-const fmtDate = s => {
- if (!s) return '-';
- const d = new Date(s);
- return isNaN(d) ? '-' : `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${p2(d.getHours())}:${p2(d.getMinutes())}`;
+// ===== filters / sort =====
+const flt = () => ({ q: $('q').value.toLowerCase().trim(), s: $('fS').value, p: $('fP').value, a: $('fA').value, late: $('fLate').checked });
+const passes = (x, f) => (!f.s || x.status === f.s) && (!f.p || x.priority === f.p) && (!f.a || x.assignee === f.a) && (!f.late || isLate(x)) &&
+ (!f.q || [x.title, x.requester, x.assignee, x.dept].some(v => (v || '').toLowerCase().includes(f.q)));
+const cmp = (a, b) => {
+ let x, y;
+ if (sk === 'deadline') { x = a.deadline || ''; y = b.deadline || ''; if (!x || !y) return x === y ? 0 : x ? -1 : 1; }
+ else if (sk === 'priority') { x = PRI.indexOf(b.priority); y = PRI.indexOf(a.priority); }
+ else if (sk === 'status') { x = STATUSES.findIndex(s => s.key === a.status); y = STATUSES.findIndex(s => s.key === b.status); }
+ else return (a[sk] || '').localeCompare(b[sk] || '') * sd;
+ return (x < y ? -1 : x > y ? 1 : 0) * sd;
 };
-const pClass = p => p === 'Urgent' ? 'p-Urgent' : p === 'High / Campaign' ? 'p-High' : p === 'Medium' ? 'p-Medium' : '';
+function fill(id, items) {
+ const e = $(id), v = e.value;
+ e.innerHTML = items.map(([k, l]) => `<option value="${esc(k)}">${esc(l)}</option>`).join('');
+ if ([...e.options].some(o => o.value === v)) e.value = v;
+}
+function fillAll() {
+ fill('fS', [['', t('allS')], ...STATUSES.map(s => [s.key, S(s.key)])]);
+ fill('fP', [['', t('allP')], ...PRI.map(p => [p, P(p)])]);
+ const uniq = k => [...new Set(tasks.map(x => (x[k] || '').trim()).filter(Boolean))].sort();
+ fill('fA', [['', t('allA')], ...uniq('assignee').map(a => [a, a])]);
+ fill('sortSel', [['deadline', t('byD')], ['priority', t('byP')], ['title', t('byT')]]);
+ $('sortSel').value = ['deadline', 'priority', 'title'].includes(sk) ? sk : 'deadline';
+ fill('formPriority', PRI.map(p => [p, P(p)]));
+ fill('formStatus', STATUSES.map(s => [s.key, S(s.key)]));
+ [['dl-r', 'requester'], ['dl-d', 'dept'], ['dl-a', 'assignee']].forEach(([id, k]) => $(id).innerHTML = uniq(k).map(v => `<option value="${esc(v)}">`).join(''));
+}
 
-// เงื่อนไขค้นหา/กรองความสำคัญ ใช้ร่วมกันทั้ง Kanban, Table และ Calendar
-const filters = () => ({ q: $('searchInput').value.toLowerCase(), fp: $('filterPriority').value });
-const passes = (t, f) => (!f.fp || t.priority === f.fp) &&
- (!f.q || (t.title || '').toLowerCase().includes(f.q) || (t.requester || '').toLowerCase().includes(f.q) || (t.assignee || '').toLowerCase().includes(f.q));
+// ===== render =====
+const board = $('view-kanban');
+board.innerHTML = STATUSES.map((s, i) => `<div class="col" style="--c:${s.c}"><div class="col-h"><h3 id="ch-${i}"></h3><span id="cnt-${i}">0</span></div><div class="col-b" id="col-${i}" data-status="${s.key}"></div></div>`).join('');
 
 function render() {
- const f = filters();
- const groups = STATUSES.map(() => []);
- const rows = [];
- let progress = 0, urgent = 0, done = 0;
-
- for (const t of tasks) {
-  if (t.status === 'In Progress') progress++;
-  else if (t.status === 'Completed') done++;
-  if (t.priority === 'Urgent') urgent++;
-
-  if (!passes(t, f)) continue;
-
-  const id = esc(t.id), title = esc(t.title), req = esc(t.requester || '-'), asg = esc(t.assignee || '-');
-  const pb = `badge ${pClass(t.priority)}`, date = fmtDate(t.deadline);
-  const eye = t.brief ? `<button class="ib e" data-act="view" data-id="${id}" aria-label="ดูบรีฟ">${ic('eye')}</button>` : '';
-
-  const gi = STATUSES.findIndex(s => s.key === t.status);
+ fillAll();
+ const f = flt(), list = tasks.filter(x => passes(x, f)).sort(cmp);
+ const groups = STATUSES.map(() => []), rows = [];
+ for (const x of list) {
+  const id = esc(x.id), late = isLate(x), chip = dlChip(x), date = fmtDate(x.deadline), gi = STATUSES.findIndex(s => s.key === x.status);
+  const pb = `<span class="badge ${pClass(x.priority)}">${esc(P(x.priority) === 'p_' + x.priority ? x.priority : P(x.priority))}</span>`;
+  const eye = x.brief ? `<button class="ib e" data-act="view" data-id="${id}" title="${t('view')}">${ic('eye')}</button>` : '';
+  const btns = `${eye}<button class="ib e" data-act="edit" data-id="${id}" title="${t('edit')}">${ic('pen')}</button><button class="ib d" data-act="del" data-id="${id}" title="${t('del')}">${ic('trash')}</button>`;
   if (gi >= 0) groups[gi].push(`
-   <div class="task" draggable="true" data-id="${id}">
-    <div class="task-top">
-     <span class="${pb}">${esc(t.priority)}</span>
-     <div>${eye}<button class="ib e" data-act="edit" data-id="${id}" aria-label="แก้ไข">${ic('pen')}</button><button class="ib d" data-act="del" data-id="${id}" aria-label="ลบ">${ic('trash')}</button></div>
+   <div class="task${late ? ' late' : ''}" draggable="true" data-id="${id}" data-p="${esc(x.priority)}">
+    <div class="task-top">${pb}<div>${btns}</div></div>
+    <h4>${esc(x.title)}</h4>
+    <div class="meta">
+     <div>${ic('user')}${esc(x.requester || '-')} (${esc(x.dept || t('gen'))})</div>
+     <div>${ic('clock')}${date}${chip}</div>
+     <div>${x.assignee ? `<span class="av">${initial(x.assignee)}</span>` : ''}${t('asg')}: <b>${esc(x.assignee || '-')}</b></div>
     </div>
-    <h4>${title}</h4>
-    <div class="task-meta">
-     <div>${ic('user')}${req} (${esc(t.dept || 'ทั่วไป')})</div>
-     <div>${ic('clock')}${date}</div>
-     <div>ผู้ดูแล: <b>${asg}</b></div>
-    </div>
+    ${gi < 3 ? `<button class="mv" data-act="next" data-id="${id}">${t('moveTo')} ${esc(S(STATUSES[gi + 1].key))} →</button>` : ''}
    </div>`);
-
-  rows.push(`
-   <tr>
-    <td class="t">${title}</td>
-    <td>${req} <small>(${esc(t.dept || '-')})</small></td>
-    <td><span class="${pb}">${esc(t.priority)}</span></td>
-    <td><span class="st">${esc(t.status)}</span></td>
-    <td>${date}</td>
-    <td>${asg}</td>
-    <td class="c">${eye} <button class="ib e" data-act="edit" data-id="${id}" aria-label="แก้ไข">${ic('pen')}</button> <button class="ib d" data-act="del" data-id="${id}" aria-label="ลบ">${ic('trash')}</button></td>
-   </tr>`);
+  rows.push(`<tr>
+   <td class="t">${esc(x.title)}</td><td>${esc(x.requester || '-')} <small>(${esc(x.dept || '-')})</small></td>
+   <td>${pb}</td><td><span class="st" style="--c:${(STATUSES[gi] || STATUSES[0]).c}">${esc(S(x.status))}</span></td>
+   <td>${date}${chip}</td><td>${esc(x.assignee || '-')}</td><td class="c">${btns}</td></tr>`);
  }
-
- groups.forEach((g, i) => { colEls[i].innerHTML = g.join(''); cntEls[i].textContent = g.length; });
- $('table-body').innerHTML = rows.join('') || '<tr><td colspan="7" class="empty">ไม่พบข้อมูลงานกราฟิก</td></tr>';
- $('kpi-total').textContent = tasks.length;
- $('kpi-progress').textContent = progress;
- $('kpi-urgent').textContent = urgent;
- $('kpi-Completed').textContent = done;
+ groups.forEach((g, i) => { $('col-' + i).innerHTML = g.join('') || '<div class="ph">—</div>'; $('cnt-' + i).textContent = g.length; $('ch-' + i).textContent = S(STATUSES[i].key); });
+ $('table-body').innerHTML = rows.join('') || `<tr><td colspan="7" class="empty">${t('none')}</td></tr>`;
+ document.querySelectorAll('th[data-sort]').forEach(h => h.className = h.dataset.sort === sk ? (sd > 0 ? 'asc' : 'desc') : '');
+ const done = tasks.filter(x => x.status === 'Completed').length;
+ $('k0').textContent = tasks.length;
+ $('k1').textContent = tasks.filter(x => x.status === 'In Progress').length;
+ $('k2').textContent = tasks.filter(x => x.priority === 'Urgent' && x.status !== 'Completed').length;
+ $('k3').textContent = tasks.filter(isLate).length;
+ $('k4').textContent = done;
+ $('k5').textContent = tasks.length ? Math.round(done / tasks.length * 100) + '%' : '';
  if (!$('view-calendar').classList.contains('hidden')) renderCalendar();
 }
 
-// ----- view switch -----
+function applyLang() {
+ document.documentElement.lang = lang; document.title = t('title'); $('lang').value = lang;
+ document.querySelectorAll('[data-i]').forEach(e => e.textContent = t(e.dataset.i));
+ document.querySelectorAll('[data-ph]').forEach(e => e.placeholder = t(e.dataset.ph));
+ document.querySelectorAll('[data-ti]').forEach(e => e.title = t(e.dataset.ti));
+ render();
+}
+
+// ===== views / calendar =====
 function switchView(v) {
  ['kanban', 'table', 'calendar'].forEach(n => $('view-' + n).classList.toggle('hidden', n !== v));
  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === v));
  if (v === 'calendar') renderCalendar();
 }
-
-// ----- calendar -----
-const TH_MONTHS = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 let calDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-
 function renderCalendar() {
- const f = filters(), y = calDate.getFullYear(), m = calDate.getMonth();
+ const f = flt(), y = calDate.getFullYear(), m = calDate.getMonth(), loc = lang === 'th' ? 'th-TH' : 'en-US';
  const prefix = `${y}-${p2(m + 1)}-`;
- $('cal-title').textContent = `${TH_MONTHS[m]} ${y + 543}`;
-
- const byDay = {};                                       // จัดงานลงวันตาม deadline (รูปแบบ YYYY-MM-DDTHH:mm)
- for (const t of tasks) {
-  if (!t.deadline || !t.deadline.startsWith(prefix) || !passes(t, f)) continue;
-  (byDay[t.deadline.slice(8, 10)] ||= []).push(t);
- }
- const now = new Date(), today = `${now.getFullYear()}-${p2(now.getMonth() + 1)}-${p2(now.getDate())}`;
- const cells = [];
+ $('cal-title').textContent = new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric' }).format(calDate);
+ $('cal-wd').innerHTML = [0,1,2,3,4,5,6].map(i => `<div class="${i === 0 ? 'su' : i === 6 ? 'sa' : ''}">${new Intl.DateTimeFormat(loc, { weekday: 'short' }).format(new Date(2023, 0, 1 + i))}</div>`).join('');
+ const byDay = {};
+ for (const x of tasks) { if (x.deadline && x.deadline.startsWith(prefix) && passes(x, f)) (byDay[x.deadline.slice(8, 10)] ||= []).push(x); }
+ const now = new Date(), today = `${now.getFullYear()}-${p2(now.getMonth() + 1)}-${p2(now.getDate())}`, cells = [];
  for (let i = new Date(y, m, 1).getDay(); i > 0; i--) cells.push('<div class="day off"></div>');
  for (let d = 1, n = new Date(y, m + 1, 0).getDate(); d <= n; d++) {
   const key = p2(d), list = (byDay[key] || []).sort((a, b) => a.deadline < b.deadline ? -1 : 1);
-  const chips = list.map(t => {
-   const cls = t.status === 'Completed' ? ' ct-done' : t.priority === 'Urgent' ? ' ct-urg' : '';
-   const tm = t.deadline.slice(11, 16), title = esc(t.title);
-   return `<button type="button" class="ct${cls}" data-act="edit" data-id="${esc(t.id)}" title="${title}${tm ? ' · ' + tm : ''}">${tm ? tm + ' ' : ''}${title}</button>`;
+  const chips = list.map(x => {
+   const cls = x.status === 'Completed' ? ' ct-done' : x.priority === 'Urgent' ? ' ct-urg' : '', tm = x.deadline.slice(11, 16);
+   return `<button type="button" class="ct${cls}" data-act="edit" data-id="${esc(x.id)}" title="${esc(x.title)} ${tm}">${tm} ${esc(x.title)}</button>`;
   }).join('');
-  cells.push(`<div class="day${prefix + key === today ? ' today' : ''}"><div class="day-h"><span>${d}</span>${list.length ? `<span class="day-n">${list.length}</span>` : ''}</div><div class="day-b">${chips}</div></div>`);
+  cells.push(`<div class="day${prefix + key === today ? ' today' : ''}"><div class="day-h"><span>${d}</span>${list.length ? `<span class="badge">${list.length}</span>` : ''}</div><button class="dadd" data-act="addday" data-d="${prefix + key}T09:00">+</button><div class="day-b">${chips}</div></div>`);
  }
  while (cells.length % 7) cells.push('<div class="day off"></div>');
  $('cal-grid').innerHTML = cells.join('');
 }
-// n = -1 / 1 เลื่อนเดือน, 0 = กลับเดือนปัจจุบัน (ตั้งวันที่ 1 เสมอ กันบั๊กข้ามเดือนตอนอยู่วันที่ 29-31)
-function moveMonth(n) {
- const base = n ? calDate : new Date();
- calDate = new Date(base.getFullYear(), base.getMonth() + n, 1);
- renderCalendar();
-}
+function moveMonth(n) { const b = n ? calDate : new Date(); calDate = new Date(b.getFullYear(), b.getMonth() + n, 1); renderCalendar(); }
 
-// ----- modal -----
-const modal = $('taskModal');
+// ===== modal =====
 const closeModal = () => document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
-function openModal(task) {
- $('taskForm').reset();
- $('taskId').value = task ? task.id : '';
+function openModal(task, dl) {
+ $('taskForm').reset(); $('taskId').value = task ? task.id : '';
  if (task) {
-  $('formTitle').value = task.title;
-  $('formRequester').value = task.requester || '';
-  $('formDept').value = task.dept || '';
-  $('formPriority').value = task.priority;
-  $('formStatus').value = task.status;
-  $('formDeadline').value = task.deadline || '';
-  $('formAssignee').value = task.assignee || '';
- }
- $('modalTitle').innerHTML = task ? ic('pen') + ' แก้ไขข้อมูลงาน' : ic('plus') + ' เพิ่มงานใหม่';
- modal.classList.add('open');
- $('formTitle').focus();
+  $('formTitle').value = task.title; $('formRequester').value = task.requester || ''; $('formDept').value = task.dept || '';
+  $('formPriority').value = task.priority; $('formStatus').value = task.status; $('formDeadline').value = task.deadline || ''; $('formAssignee').value = task.assignee || '';
+ } else if (dl) $('formDeadline').value = dl;
+ $('modalTitle').innerHTML = ic(task ? 'pen' : 'plus') + ' ' + esc(t(task ? 'editT' : 'addT'));
+ $('taskModal').classList.add('open'); $('formTitle').focus();
 }
-
 $('taskForm').addEventListener('submit', e => {
  e.preventDefault();
  const id = $('taskId').value;
- const t = {
-  id: id || Date.now().toString(),
-  title: $('formTitle').value,
-  requester: $('formRequester').value,
-  dept: $('formDept').value,
-  priority: $('formPriority').value,
-  status: $('formStatus').value,
-  deadline: $('formDeadline').value,
-  assignee: $('formAssignee').value
- };
- const i = tasks.findIndex(x => x.id === id);
- if (i >= 0 && tasks[i].brief) t.brief = tasks[i].brief;
- i >= 0 ? (tasks[i] = t) : tasks.push(t);
- closeModal(); render();
- persist({ type: 'upsert', task: t });
+ const x = { id: id || Date.now().toString(), title: $('formTitle').value.trim(), requester: $('formRequester').value.trim(), dept: $('formDept').value.trim(),
+  priority: $('formPriority').value, status: $('formStatus').value, deadline: $('formDeadline').value, assignee: $('formAssignee').value.trim() };
+ const i = tasks.findIndex(o => o.id === id);
+ if (i >= 0 && tasks[i].brief) x.brief = tasks[i].brief;
+ i >= 0 ? (tasks[i] = x) : tasks.push(x);
+ closeModal(); render(); persist({ type: 'upsert', task: x });
 });
-
-// ----- export -----
-const download = (blob, name) => {
- const a = document.createElement('a');
- a.href = URL.createObjectURL(blob); a.download = name; a.click();
- setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-};
-const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-
-function exportCSV() {
- const lines = ['Task Title,Requester,Department,Priority,Status,Deadline,Assignee'];
- for (const t of tasks) lines.push([t.title, t.requester, t.dept, t.priority, t.status, t.deadline, t.assignee].map(q).join(','));
- download(new Blob(['\uFEFF' + lines.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8;' }), 'Graphic_Tasks_Summary.csv');
-}
-
-let xlsxP;
-const loadXLSX = () => window.XLSX ? Promise.resolve() : (xlsxP ||= new Promise((ok, fail) => {
- const s = document.createElement('script');
- s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
- s.onload = ok;
- s.onerror = () => { xlsxP = null; fail(new Error('โหลดไลบรารี Excel ไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่')); };
- document.head.appendChild(s);
-}));
-
-async function exportExcel() {
- try { await loadXLSX(); } catch (e) { return alert(e.message); }
- const data = tasks.map(t => ({
-  'ชื่องาน (Project Title)': t.title, 'ผู้ส่งบรีฟ (Requester)': t.requester, 'แผนก (Department)': t.dept,
-  'ความสำคัญ (Priority)': t.priority, 'สถานะ (Status)': t.status, 'กำหนดส่ง (Deadline)': t.deadline, 'ผู้ดูแล (Assignee)': t.assignee
- }));
- const ws = XLSX.utils.json_to_sheet(data);
- ws['!cols'] = [35, 20, 15, 18, 18, 20, 15].map(wch => ({ wch }));
- const wb = XLSX.utils.book_new();
- XLSX.utils.book_append_sheet(wb, ws, 'Graphic Tasks');
- XLSX.writeFile(wb, 'Graphic_Tasks_Summary.xlsx');
-}
-
-// ----- brief detail -----
-const BRIEF_LABELS = [
- ['objective','วัตถุประสงค์ (Objective)'], ['target','กลุ่มเป้าหมาย (Target)'], ['headline','Headline'],
- ['subHeadline','Sub-headline / Body'], ['cta','Call To Action'], ['dimensions','ขนาด (Dimensions)'],
- ['fileType','ประเภทไฟล์ (Format)'], ['reference','Mood & Tone / Reference']
-];
-function showBrief(t) {
- if (!t || !t.brief) return;
- $('briefTitle').textContent = t.title;
- $('briefBody').innerHTML = BRIEF_LABELS.map(([k, l]) => `<div><dt>${l}</dt><dd>${esc(t.brief[k]) || '-'}</dd></div>`).join('');
+function showBrief(x) {
+ if (!x || !x.brief) return;
+ $('briefTitle').textContent = x.title;
+ $('briefBody').innerHTML = BRIEF.map(([k, l]) => `<div><dt>${esc(t(l))}</dt><dd>${esc(x.brief[k]) || '-'}</dd></div>`).join('');
  $('briefModal').classList.add('open');
 }
 
-// ----- backup / import (ใช้ย้ายข้อมูลข้ามเครื่องเมื่อโฮสต์บน GitHub Pages) -----
-const PRIORITIES = ['Normal', 'Medium', 'High / Campaign', 'Urgent'];
+// ===== export / backup / import =====
+const download = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
+const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+function exportCSV() {
+ const lines = ['Task Title,Requester,Department,Priority,Status,Deadline,Assignee'];
+ for (const x of tasks) lines.push([x.title, x.requester, x.dept, x.priority, x.status, x.deadline, x.assignee].map(q).join(','));
+ download(new Blob(['\uFEFF' + lines.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8;' }), 'Graphic_Tasks_Summary.csv');
+}
+let xlsxP;
+const loadXLSX = () => window.XLSX ? Promise.resolve() : (xlsxP ||= new Promise((ok, fail) => {
+ const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+ s.onload = ok; s.onerror = () => { xlsxP = null; fail(new Error(t('xErr'))); }; document.head.appendChild(s);
+}));
+async function exportExcel() {
+ try { await loadXLSX(); } catch (e) { return alert(e.message); }
+ const ws = XLSX.utils.json_to_sheet(tasks.map(x => ({ 'Project Title': x.title, 'Requester': x.requester, 'Department': x.dept, 'Priority': x.priority, 'Status': x.status, 'Deadline': x.deadline, 'Assignee': x.assignee })));
+ ws['!cols'] = [35, 20, 15, 18, 18, 20, 15].map(wch => ({ wch }));
+ const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Graphic Tasks'); XLSX.writeFile(wb, 'Graphic_Tasks_Summary.xlsx');
+}
 const str = v => typeof v === 'string' ? v : '';
-function clean(t) {
- if (!t || typeof t !== 'object' || !str(t.title).trim()) return null;
- const o = {
-  id: str(t.id) || Date.now().toString() + Math.random().toString(36).slice(2, 6),
-  title: str(t.title), requester: str(t.requester), dept: str(t.dept),
-  priority: PRIORITIES.includes(t.priority) ? t.priority : 'Normal',
-  status: STATUSES.some(s => s.key === t.status) ? t.status : 'Pending Brief',
-  deadline: str(t.deadline), assignee: str(t.assignee)
- };
- if (t.brief && typeof t.brief === 'object') o.brief = Object.fromEntries(BRIEF_LABELS.map(([k]) => [k, str(t.brief[k])]));
+function clean(x) {
+ if (!x || typeof x !== 'object' || !str(x.title).trim()) return null;
+ const o = { id: str(x.id) || Date.now().toString() + Math.random().toString(36).slice(2, 6), title: str(x.title), requester: str(x.requester), dept: str(x.dept),
+  priority: PRI.includes(x.priority) ? x.priority : 'Normal', status: STATUSES.some(s => s.key === x.status) ? x.status : 'Pending Brief', deadline: str(x.deadline), assignee: str(x.assignee) };
+ if (x.brief && typeof x.brief === 'object') o.brief = Object.fromEntries(BRIEF.map(([k]) => [k, str(x.brief[k])]));
  return o;
 }
 function backup() {
  const d = new Date();
- download(new Blob([JSON.stringify({ app: 'graphic-tasks', version: 1, exported: d.toISOString(), tasks }, null, 1)], { type: 'application/json' }),
-  `Graphic_Tasks_Backup_${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}.json`);
+ download(new Blob([JSON.stringify({ app: 'graphic-tasks', version: 1, exported: d.toISOString(), tasks }, null, 1)], { type: 'application/json' }), `Graphic_Tasks_Backup_${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}.json`);
 }
 $('importFile').addEventListener('change', async e => {
  const f = e.target.files[0]; e.target.value = '';
  if (!f) return;
  try {
-  const j = JSON.parse(await f.text());
-  const list = (Array.isArray(j) ? j : j.tasks);
+  const j = JSON.parse(await f.text()), list = Array.isArray(j) ? j : j.tasks;
   if (!Array.isArray(list)) throw 0;
-  const incoming = list.map(clean).filter(Boolean);
-  if (!incoming.length) return alert('ไม่พบข้อมูลงานในไฟล์นี้');
-  const known = new Set(tasks.map(t => t.id));
-  const upd = incoming.filter(t => known.has(t.id)).length;
-  if (!confirm(`นำเข้า ${incoming.length} งาน (เพิ่มใหม่ ${incoming.length - upd}, อัปเดตงานเดิม ${upd})\nดำเนินการต่อหรือไม่?`)) return;
-  const map = new Map(tasks.map(t => [t.id, t]));
-  incoming.forEach(t => map.set(t.id, t));
-  tasks = [...map.values()]; render();
-  persist(...incoming.map(task => ({ type: 'upsert', task })));
- } catch { alert('ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองจากระบบนี้'); }
+  const inc = list.map(clean).filter(Boolean);
+  if (!inc.length) return alert(t('imp0'));
+  const known = new Set(tasks.map(x => x.id)), upd = inc.filter(x => known.has(x.id)).length;
+  if (!confirm(t('impC').replace('{n}', inc.length).replace('{a}', inc.length - upd).replace('{u}', upd))) return;
+  const map = new Map(tasks.map(x => [x.id, x])); inc.forEach(x => map.set(x.id, x));
+  tasks = [...map.values()]; render(); persist(...inc.map(task => ({ type: 'upsert', task })));
+ } catch { alert(t('impBad')); }
 });
 
-// ----- events (delegation) -----
+// ===== theme =====
+const setTheme = v => { document.documentElement.dataset.theme = v; localStorage.setItem('gfx_theme', v); };
+setTheme(localStorage.getItem('gfx_theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
+// ===== events =====
+function kf(v) {
+ ['fS', 'fP', 'fA', 'q'].forEach(id => $(id).value = ''); $('fLate').checked = false;
+ if (v === 'late') $('fLate').checked = true; else if (v[0] === 's') $('fS').value = v.slice(2); else if (v[0] === 'p') $('fP').value = v.slice(2);
+ render();
+}
 document.addEventListener('click', e => {
- const b = e.target.closest('[data-act],[data-view],[data-cal]');
+ const b = e.target.closest('[data-act],[data-view],[data-cal],[data-kf],[data-sort]');
  if (b) {
+  if (b.dataset.sort) { sd = sk === b.dataset.sort ? -sd : 1; sk = b.dataset.sort; return render(); }
+  if (b.dataset.kf !== undefined) return kf(b.dataset.kf);
   if (b.dataset.cal !== undefined) return moveMonth(+b.dataset.cal);
   if (b.dataset.view) return switchView(b.dataset.view);
-  const id = b.dataset.id;
+  const id = b.dataset.id, x = tasks.find(o => o.id === id);
   switch (b.dataset.act) {
    case 'add': return openModal();
+   case 'addday': return openModal(null, b.dataset.d);
    case 'close': return closeModal();
    case 'csv': return exportCSV();
    case 'xlsx': return exportExcel();
    case 'refresh': return Cloud.configured() ? cloudSync() : Cloud.openSettings();
    case 'backup': return backup();
    case 'import': return $('importFile').click();
-   case 'view': return showBrief(tasks.find(t => t.id === id));
-   case 'edit': return openModal(tasks.find(t => t.id === id));
-   case 'del':
-    if (confirm('คุณต้องการลบงานนี้ใช่หรือไม่?')) { tasks = tasks.filter(t => t.id !== id); render(); persist({ type: 'delete', id }); }
-    return;
+   case 'theme': return setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+   case 'clear': return kf('');
+   case 'view': return showBrief(x);
+   case 'edit': return openModal(x);
+   case 'next': { const i = STATUSES.findIndex(s => s.key === (x && x.status)); if (x && i < 3) { x.status = STATUSES[i + 1].key; render(); persist({ type: 'upsert', task: x }); } return; }
+   case 'del': if (x) { undoTask = x; tasks = tasks.filter(o => o.id !== id); render(); persist({ type: 'delete', id }); toast(t('deleted'), 'undo'); } return;
+   case 'undo': if (undoTask) { tasks.push(undoTask); persist({ type: 'upsert', task: undoTask }); undoTask = null; render(); $('toast').classList.remove('show'); } return;
   }
  }
  if (e.target.classList.contains('modal')) closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+ if (e.key === 'Escape') return closeModal();
+ if (/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) || e.ctrlKey || e.metaKey) return;
+ if (e.key === '/') { e.preventDefault(); $('q').focus(); }
+ else if (e.key === 'n' || e.key === 'N') { e.preventDefault(); openModal(); }
+});
+$('lang').addEventListener('change', e => { lang = e.target.value; localStorage.setItem('gfx_lang', lang); applyLang(); });
+$('sortSel').addEventListener('change', e => { sk = e.target.value; sd = 1; render(); });
+['fS', 'fP', 'fA', 'fLate'].forEach(id => $(id).addEventListener('change', render));
+let timer; $('q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
 
 // drag & drop
-board.addEventListener('dragstart', e => {
- const c = e.target.closest('.task'); if (!c) return;
- dragId = c.dataset.id; e.dataTransfer.setData('text', dragId); e.dataTransfer.effectAllowed = 'move';
- requestAnimationFrame(() => c.classList.add('dragging'));
-});
-board.addEventListener('dragend', () => {
- dragId = null;
- board.querySelectorAll('.dragging,.over').forEach(n => n.classList.remove('dragging', 'over'));
-});
-board.addEventListener('dragover', e => {
- const col = e.target.closest('.col-b'); if (!col) return;
- e.preventDefault();
- board.querySelectorAll('.over').forEach(n => n !== col && n.classList.remove('over'));
- col.classList.add('over');
-});
+board.addEventListener('dragstart', e => { const c = e.target.closest('.task'); if (!c) return; dragId = c.dataset.id; e.dataTransfer.setData('text', dragId); e.dataTransfer.effectAllowed = 'move'; requestAnimationFrame(() => c.classList.add('dragging')); });
+board.addEventListener('dragend', () => { dragId = null; board.querySelectorAll('.dragging,.over').forEach(n => n.classList.remove('dragging', 'over')); });
+board.addEventListener('dragover', e => { const c = e.target.closest('.col-b'); if (!c) return; e.preventDefault(); board.querySelectorAll('.over').forEach(n => n !== c && n.classList.remove('over')); c.classList.add('over'); });
 board.addEventListener('drop', e => {
- const col = e.target.closest('.col-b'); if (!col) return;
- e.preventDefault();
- const t = tasks.find(x => x.id === (e.dataTransfer.getData('text') || dragId));
- if (t && t.status !== col.dataset.status) { t.status = col.dataset.status; render(); persist({ type: 'upsert', task: t }); return; }
+ const c = e.target.closest('.col-b'); if (!c) return; e.preventDefault();
+ const x = tasks.find(o => o.id === (e.dataTransfer.getData('text') || dragId));
+ if (x && x.status !== c.dataset.status) { x.status = c.dataset.status; render(); persist({ type: 'upsert', task: x }); return; }
  render();
 });
 
-// ค้นหา (debounce) + ตัวกรอง
-let timer;
-$('searchInput').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
-$('filterPriority').addEventListener('change', render);
-
-// ซิงก์อัตโนมัติเมื่อ BriefGen (หรือแท็บอื่น) ส่งงานเข้ามา
 window.addEventListener('storage', e => { if (e.key === KEY) { tasks = load(); render(); } });
-
-// โหลด SheetJS ล่วงหน้าเมื่อเมาส์แตะปุ่ม Excel
 document.querySelector('[data-act="xlsx"]').addEventListener('pointerenter', () => loadXLSX().catch(() => {}), { once: true });
-
-// ดึงข้อมูลล่าสุดจาก Sheets ทุก 30 วินาที (เฉพาะตอนเปิดหน้านี้อยู่ และไม่ได้กำลังลากการ์ด)
 setInterval(() => { if (!document.hidden && dragId === null && !document.querySelector('.modal.open')) cloudSync(); }, 30000);
+setInterval(() => { if (!document.hidden && dragId === null && !document.querySelector('.modal.open')) render(); }, 60000);   // อัปเดตป้ายนับถอยหลัง
 document.addEventListener('visibilitychange', () => { if (!document.hidden) cloudSync(); });
 Cloud.onConfigChange(cloudSync);
 
-render();
+applyLang();
 cloudSync();
 })();
 </script>
