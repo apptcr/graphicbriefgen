@@ -198,7 +198,6 @@ td.t{font-weight:600}td small{color:var(--mu)}
    <label class="chk"><input type="checkbox" id="fLate"><span data-i="onlyLate"></span></label>
    <button class="chip" data-act="qf" data-v="today" data-i="qToday"></button>
    <button class="chip" data-act="qf" data-v="week" data-i="qWeek"></button>
-   <button class="chip" data-act="qf" data-v="mine" data-i="qMine"></button>
    <label class="chk"><input type="checkbox" id="fArch"><span><span data-i="arch"></span> (<span id="archN">0</span>)</span></label>
    <button class="chip" data-act="compact" id="bCompact"><svg class="i"><use href="#i-list"/></svg><span data-i="compact"></span></button>
    <button class="lnk" data-act="clear" data-i="clear"></button>
@@ -266,7 +265,7 @@ const L = {
   sync:'ซิงก์ข้อมูลตอนนี้',csvT:'ส่งออกไฟล์ CSV',xlsxT:'ส่งออกไฟล์ Excel',backupT:'สำรองข้อมูลทั้งหมดเป็น .json (พร้อมรายละเอียดบรีฟ)',impT:'นำเข้าไฟล์ .json ที่สำรองไว้ (รวมกับข้อมูลเดิม)',theme:'สลับโหมดมืด/สว่าง',
   kTotal:'งานทั้งหมด',kProg:'กำลังดำเนินการ',kUrg:'งานด่วนพิเศษ',kLate:'เลยกำหนดส่ง',kDone:'เสร็จแล้ว',
   search:'ค้นหาชื่องาน, ผู้ส่งบรีฟ, ผู้ดูแล, แผนก...  ( กด / )',allP:'ทุกความสำคัญ',allS:'ทุกสถานะ',allA:'ทุกผู้ดูแล',
-  byD:'เรียง: กำหนดส่ง',byP:'เรียง: ความสำคัญ',byT:'เรียง: ชื่องาน',onlyLate:'เฉพาะงานเลยกำหนด',clear:'ล้างตัวกรอง',qToday:'ครบกำหนดวันนี้',qWeek:'ภายใน 7 วัน',qMine:'งานของฉัน',arch:'แสดงงานเก่า (เสร็จเกิน 30 วัน)',compact:'การ์ดย่อ',all:'ดูทั้งหมด',less:'ย่อ',mePrompt:'ชื่อของคุณ (ให้ตรงกับชื่อในช่อง ผู้ดูแล)',
+  byD:'เรียง: กำหนดส่ง',byP:'เรียง: ความสำคัญ',byT:'เรียง: ชื่องาน',onlyLate:'เฉพาะงานเลยกำหนด',clear:'ล้างตัวกรอง',qToday:'ครบกำหนดวันนี้',qWeek:'ภายใน 7 วัน',arch:'แสดงงานเก่า (เสร็จเกิน 30 วัน)',compact:'การ์ดย่อ',all:'ดูทั้งหมด',less:'ย่อ',
   kanban:'บอร์ด',table:'ตาราง',cal:'ปฏิทิน',prev:'เดือนก่อน',today:'เดือนนี้',next:'เดือนถัดไป',
   fTitle:'ชื่องาน',fReq:'ผู้ส่งบรีฟ',fDept:'แผนก',fPri:'ความสำคัญ',fSt:'สถานะ',fDl:'กำหนดส่ง',fAs:'ผู้ดูแล / กราฟิก',acts:'จัดการ',
   none:'ไม่พบงานตามเงื่อนไข',gen:'ทั่วไป',asg:'ผู้ดูแล',editT:'แก้ไขข้อมูลงาน',addT:'เพิ่มงานใหม่',save:'บันทึกข้อมูล',cancel:'ยกเลิก',
@@ -280,7 +279,7 @@ const L = {
   sync:'Sync now',csvT:'Export CSV',xlsxT:'Export Excel',backupT:'Back up everything as .json (incl. brief details)',impT:'Import a .json backup (merged with existing data)',theme:'Toggle dark / light mode',
   kTotal:'Total tasks',kProg:'In progress',kUrg:'Urgent',kLate:'Overdue',kDone:'Completed',
   search:'Search title, requester, assignee, dept...  ( press / )',allP:'All priorities',allS:'All statuses',allA:'All assignees',
-  byD:'Sort: Deadline',byP:'Sort: Priority',byT:'Sort: Title',onlyLate:'Overdue only',clear:'Clear filters',qToday:'Due today',qWeek:'Next 7 days',qMine:'My tasks',arch:'Show old (completed 30+ days)',compact:'Compact cards',all:'Show all',less:'Show less',mePrompt:'Your name (as it appears in Assignee)',
+  byD:'Sort: Deadline',byP:'Sort: Priority',byT:'Sort: Title',onlyLate:'Overdue only',clear:'Clear filters',qToday:'Due today',qWeek:'Next 7 days',arch:'Show old (completed 30+ days)',compact:'Compact cards',all:'Show all',less:'Show less',
   kanban:'Board',table:'Table',cal:'Calendar',prev:'Prev',today:'Today',next:'Next',
   fTitle:'Project title',fReq:'Requester',fDept:'Department',fPri:'Priority',fSt:'Status',fDl:'Deadline',fAs:'Assignee',acts:'Actions',
   none:'No matching tasks',gen:'General',asg:'Assignee',editT:'Edit task',addT:'New task',save:'Save',cancel:'Cancel',
@@ -336,7 +335,7 @@ const open = x => x.status !== 'Completed' && x.status !== 'In Review';
 const isLate = x => open(x) && x.deadline && new Date(x.deadline) < new Date();
 const isArch = x => x.status === 'Completed' && x.deadline && Date.now() - new Date(x.deadline) > 30 * 864e5;   // งานเสร็จที่กำหนดส่งเก่าเกิน 30 วัน (ซ่อนในมุมมองเท่านั้น ไม่แตะข้อมูล)
 const LIMIT = 6;
-let when = '', mine = false, showArch = false, showAll = false, compact = !!localStorage.getItem('gfx_compact'), me = localStorage.getItem('gfx_me') || '';
+let when = '', showArch = false, showAll = false, compact = !!localStorage.getItem('gfx_compact');
 const whenOk = x => {
  if (!when) return true;
  if (!x.deadline || !open(x)) return false;
@@ -344,7 +343,6 @@ const whenOk = x => {
  const e = new Date(s); e.setDate(e.getDate() + (when === 'today' ? 1 : 7));
  return d >= s && d < e;
 };
-const mineOk = x => !mine || (me && (x.assignee || '').toLowerCase().includes(me.toLowerCase()));
 const initial = s => esc((s || '?').trim().charAt(0).toUpperCase() || '?');
 function dlChip(x) {                                      // ป้ายนับถอยหลัง/เลยกำหนด
  if (!x.deadline || x.status === 'Completed' || x.status === 'In Review') return '';
@@ -362,7 +360,7 @@ function toast(msg, act) {
 
 // ===== filters / sort =====
 const flt = () => ({ q: $('q').value.toLowerCase().trim(), s: $('fS').value, p: $('fP').value, a: $('fA').value, late: $('fLate').checked });
-const passes = (x, f) => (!f.s || x.status === f.s) && (!f.p || x.priority === f.p) && (!f.a || x.assignee === f.a) && (!f.late || isLate(x)) && (showArch || !isArch(x)) && whenOk(x) && mineOk(x) &&
+const passes = (x, f) => (!f.s || x.status === f.s) && (!f.p || x.priority === f.p) && (!f.a || x.assignee === f.a) && (!f.late || isLate(x)) && (showArch || !isArch(x)) && whenOk(x) &&
  (!f.q || [x.title, x.requester, x.assignee, x.dept].some(v => (v || '').toLowerCase().includes(f.q)));
 const cmp = (a, b) => {
  let x, y;
@@ -434,7 +432,7 @@ function render() {
  $('k3').textContent = tasks.filter(isLate).length;
  $('k4').textContent = done;
  $('k5').textContent = tasks.length ? Math.round(done / tasks.length * 100) + '%' : '';
- document.querySelectorAll('[data-act="qf"]').forEach(b => b.classList.toggle('on', b.dataset.v === 'mine' ? mine : when === b.dataset.v));
+ document.querySelectorAll('[data-act="qf"]').forEach(b => b.classList.toggle('on', when === b.dataset.v));
  $('bCompact').classList.toggle('on', compact); board.classList.toggle('compact', compact);
  $('archN').textContent = tasks.filter(isArch).length;
  if (!$('view-calendar').classList.contains('hidden')) renderCalendar();
@@ -558,7 +556,7 @@ setTheme(localStorage.getItem('gfx_theme') || (matchMedia('(prefers-color-scheme
 // ===== events =====
 function kf(v) {
  ['fS', 'fP', 'fA', 'q'].forEach(id => $(id).value = ''); $('fLate').checked = false;
- when = ''; mine = false; showArch = v === 's:Completed'; $('fArch').checked = showArch;
+ when = ''; showArch = v === 's:Completed'; $('fArch').checked = showArch;
  if (v === 'late') $('fLate').checked = true; else if (v[0] === 's') $('fS').value = v.slice(2); else if (v[0] === 'p') $('fP').value = v.slice(2);
  render();
 }
@@ -581,14 +579,7 @@ document.addEventListener('click', e => {
    case 'import': return $('importFile').click();
    case 'theme': return setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
    case 'clear': return kf('');
-   case 'qf': {
-    const v = b.dataset.v;
-    if (v === 'mine') {
-     if (!mine && (!me || e.shiftKey)) { const n = prompt(t('mePrompt'), me); if (!n || !n.trim()) return; me = n.trim(); localStorage.setItem('gfx_me', me); }   // Shift+คลิก = เปลี่ยนชื่อ
-     mine = !mine;
-    } else when = when === v ? '' : v;
-    return render();
-   }
+   case 'qf': when = when === b.dataset.v ? '' : b.dataset.v; return render();
    case 'compact': compact = !compact; localStorage.setItem('gfx_compact', compact ? '1' : ''); return render();
    case 'more': showAll = !showAll; return render();
    case 'view': return showBrief(x);
