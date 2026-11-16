@@ -283,10 +283,10 @@ const ic = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const STATUSES = [
- { key:'Pending Brief', bg:'#e2e8f0b3', bd:'#cbd5e1', tx:'#334155', dot:'#94a3b8' },
- { key:'In Queue',      bg:'#eff6ffb3', bd:'#bfdbfe', tx:'#1d4ed8', dot:'#3b82f6' },
- { key:'In Progress',   bg:'#fffbebb3', bd:'#fde68a', tx:'#b45309', dot:'#f59e0b' },
- { key:'Completed',     bg:'#ecfdf5b3', bd:'#a7f3d0', tx:'#047857', dot:'#10b981' }
+ { key:'รอตรวจ', bg:'#e2e8f0b3', bd:'#cbd5e1', tx:'#334155', dot:'#94a3b8' },
+ { key:'รอทำ',      bg:'#eff6ffb3', bd:'#bfdbfe', tx:'#1d4ed8', dot:'#3b82f6' },
+ { key:'กำลังทำ',   bg:'#fffbebb3', bd:'#fde68a', tx:'#b45309', dot:'#f59e0b' },
+ { key:'เสร็จ',     bg:'#ecfdf5b3', bd:'#a7f3d0', tx:'#047857', dot:'#10b981' }
 ];
 
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
