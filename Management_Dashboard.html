@@ -190,9 +190,9 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
 <main>
  <section class="kpis">
   <div class="box kpi"><div class="ic" style="background:#eef2ff;color:#4f46e5"><svg class="i"><use href="#i-layers"/></svg></div><div><small>งานทั้งหมด (Total)</small><b id="kpi-total">0</b></div></div>
-  <div class="box kpi"><div class="ic" style="background:#fffbeb;color:#d97706"><svg class="i"><use href="#i-spin"/></svg></div><div><small>กำลังดำเนินการ (กำลังทำ)</small><b id="kpi-progress" style="color:#d97706">0</b></div></div>
+  <div class="box kpi"><div class="ic" style="background:#fffbeb;color:#d97706"><svg class="i"><use href="#i-spin"/></svg></div><div><small>กำลังดำเนินการ (In Progress)</small><b id="kpi-progress" style="color:#d97706">0</b></div></div>
   <div class="box kpi"><div class="ic" style="background:#fef2f2;color:#dc2626"><svg class="i"><use href="#i-warn"/></svg></div><div><small>งานด่วนพิเศษ (Urgent)</small><b id="kpi-urgent" style="color:#dc2626">0</b></div></div>
-  <div class="box kpi"><div class="ic" style="background:#ecfdf5;color:#059669"><svg class="i"><use href="#i-check"/></svg></div><div><small>เสร็จสิ้นแล้ว (เสร็จ)</small><b id="kpi-เสร็จ" style="color:#059669">0</b></div></div>
+  <div class="box kpi"><div class="ic" style="background:#ecfdf5;color:#059669"><svg class="i"><use href="#i-check"/></svg></div><div><small>Completedสิ้นแล้ว (Completed)</small><b id="kpi-Completed" style="color:#059669">0</b></div></div>
  </section>
 
  <section class="box ctl">
@@ -252,7 +252,7 @@ td .st{font-weight:600;font-size:.75rem;color:#4f46e5;background:#eef2ff;padding
    </div>
    <div class="row">
     <label>ความสำคัญ (Priority)<select id="formPriority"><option>Normal</option><option>Medium</option><option>High / Campaign</option><option>Urgent</option></select></label>
-    <label>สถานะ (Status)<select id="formStatus"><option>รอตรวจ</option><option>รอทำ</option><option>กำลังทำ</option><option>เสร็จ</option></select></label>
+    <label>สถานะ (Status)<select id="formStatus"><option>Pending Brief</option><option>In Queue</option><option>In Progress</option><option>Completed</option></select></label>
    </div>
    <div class="row">
     <label>กำหนดส่ง (Deadline)<input type="datetime-local" id="formDeadline"></label>
@@ -283,10 +283,10 @@ const ic = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const STATUSES = [
- { key:'รอตรวจ', bg:'#e2e8f0b3', bd:'#cbd5e1', tx:'#334155', dot:'#94a3b8' },
- { key:'รอทำ',      bg:'#eff6ffb3', bd:'#bfdbfe', tx:'#1d4ed8', dot:'#3b82f6' },
- { key:'กำลังทำ',   bg:'#fffbebb3', bd:'#fde68a', tx:'#b45309', dot:'#f59e0b' },
- { key:'เสร็จ',     bg:'#ecfdf5b3', bd:'#a7f3d0', tx:'#047857', dot:'#10b981' }
+ { key:'Pending Brief', bg:'#e2e8f0b3', bd:'#cbd5e1', tx:'#334155', dot:'#94a3b8' },
+ { key:'In Queue',      bg:'#eff6ffb3', bd:'#bfdbfe', tx:'#1d4ed8', dot:'#3b82f6' },
+ { key:'In Progress',   bg:'#fffbebb3', bd:'#fde68a', tx:'#b45309', dot:'#f59e0b' },
+ { key:'Completed',     bg:'#ecfdf5b3', bd:'#a7f3d0', tx:'#047857', dot:'#10b981' }
 ];
 
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
@@ -353,8 +353,8 @@ function render() {
  let progress = 0, urgent = 0, done = 0;
 
  for (const t of tasks) {
-  if (t.status === 'กำลังทำ') progress++;
-  else if (t.status === 'เสร็จ') done++;
+  if (t.status === 'In Progress') progress++;
+  else if (t.status === 'Completed') done++;
   if (t.priority === 'Urgent') urgent++;
 
   if (!passes(t, f)) continue;
@@ -395,7 +395,7 @@ function render() {
  $('kpi-total').textContent = tasks.length;
  $('kpi-progress').textContent = progress;
  $('kpi-urgent').textContent = urgent;
- $('kpi-เสร็จ').textContent = done;
+ $('kpi-Completed').textContent = done;
  if (!$('view-calendar').classList.contains('hidden')) renderCalendar();
 }
 
@@ -426,7 +426,7 @@ function renderCalendar() {
  for (let d = 1, n = new Date(y, m + 1, 0).getDate(); d <= n; d++) {
   const key = p2(d), list = (byDay[key] || []).sort((a, b) => a.deadline < b.deadline ? -1 : 1);
   const chips = list.map(t => {
-   const cls = t.status === 'เสร็จ' ? ' ct-done' : t.priority === 'Urgent' ? ' ct-urg' : '';
+   const cls = t.status === 'Completed' ? ' ct-done' : t.priority === 'Urgent' ? ' ct-urg' : '';
    const tm = t.deadline.slice(11, 16), title = esc(t.title);
    return `<button type="button" class="ct${cls}" data-act="edit" data-id="${esc(t.id)}" title="${title}${tm ? ' · ' + tm : ''}">${tm ? tm + ' ' : ''}${title}</button>`;
   }).join('');
@@ -540,7 +540,7 @@ function clean(t) {
   id: str(t.id) || Date.now().toString() + Math.random().toString(36).slice(2, 6),
   title: str(t.title), requester: str(t.requester), dept: str(t.dept),
   priority: PRIORITIES.includes(t.priority) ? t.priority : 'Normal',
-  status: STATUSES.some(s => s.key === t.status) ? t.status : 'รอตรวจ',
+  status: STATUSES.some(s => s.key === t.status) ? t.status : 'Pending Brief',
   deadline: str(t.deadline), assignee: str(t.assignee)
  };
  if (t.brief && typeof t.brief === 'object') o.brief = Object.fromEntries(BRIEF_LABELS.map(([k]) => [k, str(t.brief[k])]));
