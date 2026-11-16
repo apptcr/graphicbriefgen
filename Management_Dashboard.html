@@ -59,8 +59,12 @@ input:focus,select:focus{box-shadow:0 0 0 2px var(--pri);border-color:transparen
 .col-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:0 .2rem;border-bottom:2px solid var(--c);padding-bottom:.5rem}
 .col-h h3{font-weight:700;color:var(--c);font-size:.9rem}
 .col-h span{font-size:.75rem;background:var(--c);color:#fff;font-weight:700;padding:.05rem .55rem;border-radius:9999px}
-.col-b{display:grid;gap:.65rem;min-height:200px;align-content:start;border-radius:.5rem}
+.col-b{display:grid;gap:.65rem;min-height:160px;max-height:max(340px,calc(100vh - 290px));overflow-y:auto;padding:.1rem .25rem .1rem .1rem;align-content:start;border-radius:.5rem}
 .col-b.over{outline:2px dashed var(--pri);outline-offset:2px}
+.chip{font-size:.78rem;font-weight:600;padding:.3rem .75rem;border-radius:9999px;border:1px solid var(--bd);background:var(--card);color:var(--mu);display:inline-flex;align-items:center;gap:.3rem}
+.chip:hover{border-color:var(--pri);color:var(--pri)}.chip.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.more{font-size:.78rem;font-weight:700;color:var(--pri);background:var(--soft);padding:.5rem;border-radius:.5rem;text-align:center}.more:hover{filter:brightness(.95)}
+.compact .task{padding:.5rem .6rem;gap:.25rem}.compact .meta{border:0;padding:0}.compact .meta div:not(:nth-child(2)){display:none}.compact .mv{display:none}.compact .task h4{font-size:.82rem}
 .ph{text-align:center;color:var(--mu);font-size:.8rem;padding:1rem;opacity:.6}
 .task{--pc:#94a3b8;background:var(--card);padding:.8rem;border-radius:.7rem;box-shadow:0 1px 3px #0002;border:1px solid var(--bd);border-left:4px solid var(--pc);display:grid;gap:.45rem;cursor:grab;transition:box-shadow .15s,transform .15s}
 .task[data-p=Urgent]{--pc:#ef4444}.task[data-p=Medium]{--pc:#3b82f6}.task[data-p="High / Campaign"]{--pc:#f97316}
@@ -192,6 +196,11 @@ td.t{font-weight:600}td small{color:var(--mu)}
   </div>
   <div class="ctl-r">
    <label class="chk"><input type="checkbox" id="fLate"><span data-i="onlyLate"></span></label>
+   <button class="chip" data-act="qf" data-v="today" data-i="qToday"></button>
+   <button class="chip" data-act="qf" data-v="week" data-i="qWeek"></button>
+   <button class="chip" data-act="qf" data-v="mine" data-i="qMine"></button>
+   <label class="chk"><input type="checkbox" id="fArch"><span><span data-i="arch"></span> (<span id="archN">0</span>)</span></label>
+   <button class="chip" data-act="compact" id="bCompact"><svg class="i"><use href="#i-list"/></svg><span data-i="compact"></span></button>
    <button class="lnk" data-act="clear" data-i="clear"></button>
    <div class="tabs">
     <button class="tab on" data-view="kanban"><svg class="i"><use href="#i-cols"/></svg><span data-i="kanban"></span></button>
@@ -257,7 +266,7 @@ const L = {
   sync:'ซิงก์ข้อมูลตอนนี้',csvT:'ส่งออกไฟล์ CSV',xlsxT:'ส่งออกไฟล์ Excel',backupT:'สำรองข้อมูลทั้งหมดเป็น .json (พร้อมรายละเอียดบรีฟ)',impT:'นำเข้าไฟล์ .json ที่สำรองไว้ (รวมกับข้อมูลเดิม)',theme:'สลับโหมดมืด/สว่าง',
   kTotal:'งานทั้งหมด',kProg:'กำลังดำเนินการ',kUrg:'งานด่วนพิเศษ',kLate:'เลยกำหนดส่ง',kDone:'เสร็จแล้ว',
   search:'ค้นหาชื่องาน, ผู้ส่งบรีฟ, ผู้ดูแล, แผนก...  ( กด / )',allP:'ทุกความสำคัญ',allS:'ทุกสถานะ',allA:'ทุกผู้ดูแล',
-  byD:'เรียง: กำหนดส่ง',byP:'เรียง: ความสำคัญ',byT:'เรียง: ชื่องาน',onlyLate:'เฉพาะงานเลยกำหนด',clear:'ล้างตัวกรอง',
+  byD:'เรียง: กำหนดส่ง',byP:'เรียง: ความสำคัญ',byT:'เรียง: ชื่องาน',onlyLate:'เฉพาะงานเลยกำหนด',clear:'ล้างตัวกรอง',qToday:'ครบกำหนดวันนี้',qWeek:'ภายใน 7 วัน',qMine:'งานของฉัน',arch:'แสดงงานเก่า (เสร็จเกิน 30 วัน)',compact:'การ์ดย่อ',all:'ดูทั้งหมด',less:'ย่อ',mePrompt:'ชื่อของคุณ (ให้ตรงกับชื่อในช่อง ผู้ดูแล)',
   kanban:'บอร์ด',table:'ตาราง',cal:'ปฏิทิน',prev:'เดือนก่อน',today:'เดือนนี้',next:'เดือนถัดไป',
   fTitle:'ชื่องาน',fReq:'ผู้ส่งบรีฟ',fDept:'แผนก',fPri:'ความสำคัญ',fSt:'สถานะ',fDl:'กำหนดส่ง',fAs:'ผู้ดูแล / กราฟิก',acts:'จัดการ',
   none:'ไม่พบงานตามเงื่อนไข',gen:'ทั่วไป',asg:'ผู้ดูแล',editT:'แก้ไขข้อมูลงาน',addT:'เพิ่มงานใหม่',save:'บันทึกข้อมูล',cancel:'ยกเลิก',
@@ -271,7 +280,7 @@ const L = {
   sync:'Sync now',csvT:'Export CSV',xlsxT:'Export Excel',backupT:'Back up everything as .json (incl. brief details)',impT:'Import a .json backup (merged with existing data)',theme:'Toggle dark / light mode',
   kTotal:'Total tasks',kProg:'In progress',kUrg:'Urgent',kLate:'Overdue',kDone:'Completed',
   search:'Search title, requester, assignee, dept...  ( press / )',allP:'All priorities',allS:'All statuses',allA:'All assignees',
-  byD:'Sort: Deadline',byP:'Sort: Priority',byT:'Sort: Title',onlyLate:'Overdue only',clear:'Clear filters',
+  byD:'Sort: Deadline',byP:'Sort: Priority',byT:'Sort: Title',onlyLate:'Overdue only',clear:'Clear filters',qToday:'Due today',qWeek:'Next 7 days',qMine:'My tasks',arch:'Show old (completed 30+ days)',compact:'Compact cards',all:'Show all',less:'Show less',mePrompt:'Your name (as it appears in Assignee)',
   kanban:'Board',table:'Table',cal:'Calendar',prev:'Prev',today:'Today',next:'Next',
   fTitle:'Project title',fReq:'Requester',fDept:'Department',fPri:'Priority',fSt:'Status',fDl:'Deadline',fAs:'Assignee',acts:'Actions',
   none:'No matching tasks',gen:'General',asg:'Assignee',editT:'Edit task',addT:'New task',save:'Save',cancel:'Cancel',
@@ -323,7 +332,19 @@ function persist(...ops) { save(); if (Cloud.configured()) { ops.forEach(o => Cl
 const p2 = n => String(n).padStart(2, '0');
 const fmtDate = s => { const d = s && new Date(s); return !d || isNaN(d) ? '-' : `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+(lang==='th'?543:0)} ${p2(d.getHours())}:${p2(d.getMinutes())}`; };
 const pClass = p => p === 'Urgent' ? 'p-Urgent' : p === 'High / Campaign' ? 'p-High' : p === 'Medium' ? 'p-Medium' : '';
-const isLate = x => x.status !== 'Completed' && x.status !== 'In Review' && x.deadline && new Date(x.deadline) < new Date();
+const open = x => x.status !== 'Completed' && x.status !== 'In Review';
+const isLate = x => open(x) && x.deadline && new Date(x.deadline) < new Date();
+const isArch = x => x.status === 'Completed' && x.deadline && Date.now() - new Date(x.deadline) > 30 * 864e5;   // งานเสร็จที่กำหนดส่งเก่าเกิน 30 วัน (ซ่อนในมุมมองเท่านั้น ไม่แตะข้อมูล)
+const LIMIT = 6;
+let when = '', mine = false, showArch = false, showAll = false, compact = !!localStorage.getItem('gfx_compact'), me = localStorage.getItem('gfx_me') || '';
+const whenOk = x => {
+ if (!when) return true;
+ if (!x.deadline || !open(x)) return false;
+ const d = new Date(x.deadline), s = new Date(); s.setHours(0, 0, 0, 0);
+ const e = new Date(s); e.setDate(e.getDate() + (when === 'today' ? 1 : 7));
+ return d >= s && d < e;
+};
+const mineOk = x => !mine || (me && (x.assignee || '').toLowerCase().includes(me.toLowerCase()));
 const initial = s => esc((s || '?').trim().charAt(0).toUpperCase() || '?');
 function dlChip(x) {                                      // ป้ายนับถอยหลัง/เลยกำหนด
  if (!x.deadline || x.status === 'Completed' || x.status === 'In Review') return '';
@@ -341,7 +362,7 @@ function toast(msg, act) {
 
 // ===== filters / sort =====
 const flt = () => ({ q: $('q').value.toLowerCase().trim(), s: $('fS').value, p: $('fP').value, a: $('fA').value, late: $('fLate').checked });
-const passes = (x, f) => (!f.s || x.status === f.s) && (!f.p || x.priority === f.p) && (!f.a || x.assignee === f.a) && (!f.late || isLate(x)) &&
+const passes = (x, f) => (!f.s || x.status === f.s) && (!f.p || x.priority === f.p) && (!f.a || x.assignee === f.a) && (!f.late || isLate(x)) && (showArch || !isArch(x)) && whenOk(x) && mineOk(x) &&
  (!f.q || [x.title, x.requester, x.assignee, x.dept].some(v => (v || '').toLowerCase().includes(f.q)));
 const cmp = (a, b) => {
  let x, y;
@@ -397,7 +418,13 @@ function render() {
    <td>${pb}</td><td><span class="st" style="--c:${(STATUSES[gi] || STATUSES[0]).c}">${esc(S(x.status))}</span></td>
    <td>${date}${chip}</td><td>${esc(x.assignee || '-')}</td><td class="c">${btns}</td></tr>`);
  }
- groups.forEach((g, i) => { $('col-' + i).innerHTML = g.join('') || '<div class="ph">—</div>'; $('cnt-' + i).textContent = g.length; $('ch-' + i).textContent = S(STATUSES[i].key); });
+ const last = STATUSES.length - 1;
+ if (sk === 'deadline' && sd > 0) groups[last].reverse();                  // ช่องเสร็จ: เอางานล่าสุดขึ้นก่อน
+ groups.forEach((g, i) => {
+  const n = g.length; let h = g;
+  if (i === last && n > LIMIT) h = [...(showAll ? g : g.slice(0, LIMIT)), `<button class="more" data-act="more">${showAll ? t('less') : t('all') + ' (' + n + ')'}</button>`];
+  $('col-' + i).innerHTML = h.join('') || '<div class="ph">—</div>'; $('cnt-' + i).textContent = n; $('ch-' + i).textContent = S(STATUSES[i].key);
+ });
  $('table-body').innerHTML = rows.join('') || `<tr><td colspan="7" class="empty">${t('none')}</td></tr>`;
  document.querySelectorAll('th[data-sort]').forEach(h => h.className = h.dataset.sort === sk ? (sd > 0 ? 'asc' : 'desc') : '');
  const done = tasks.filter(x => x.status === 'Completed').length;
@@ -407,6 +434,9 @@ function render() {
  $('k3').textContent = tasks.filter(isLate).length;
  $('k4').textContent = done;
  $('k5').textContent = tasks.length ? Math.round(done / tasks.length * 100) + '%' : '';
+ document.querySelectorAll('[data-act="qf"]').forEach(b => b.classList.toggle('on', b.dataset.v === 'mine' ? mine : when === b.dataset.v));
+ $('bCompact').classList.toggle('on', compact); board.classList.toggle('compact', compact);
+ $('archN').textContent = tasks.filter(isArch).length;
  if (!$('view-calendar').classList.contains('hidden')) renderCalendar();
 }
 
@@ -528,6 +558,7 @@ setTheme(localStorage.getItem('gfx_theme') || (matchMedia('(prefers-color-scheme
 // ===== events =====
 function kf(v) {
  ['fS', 'fP', 'fA', 'q'].forEach(id => $(id).value = ''); $('fLate').checked = false;
+ when = ''; mine = false; showArch = v === 's:Completed'; $('fArch').checked = showArch;
  if (v === 'late') $('fLate').checked = true; else if (v[0] === 's') $('fS').value = v.slice(2); else if (v[0] === 'p') $('fP').value = v.slice(2);
  render();
 }
@@ -550,6 +581,16 @@ document.addEventListener('click', e => {
    case 'import': return $('importFile').click();
    case 'theme': return setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
    case 'clear': return kf('');
+   case 'qf': {
+    const v = b.dataset.v;
+    if (v === 'mine') {
+     if (!mine && (!me || e.shiftKey)) { const n = prompt(t('mePrompt'), me); if (!n || !n.trim()) return; me = n.trim(); localStorage.setItem('gfx_me', me); }   // Shift+คลิก = เปลี่ยนชื่อ
+     mine = !mine;
+    } else when = when === v ? '' : v;
+    return render();
+   }
+   case 'compact': compact = !compact; localStorage.setItem('gfx_compact', compact ? '1' : ''); return render();
+   case 'more': showAll = !showAll; return render();
    case 'view': return showBrief(x);
    case 'edit': return openModal(x);
    case 'next': { const i = STATUSES.findIndex(s => s.key === (x && x.status)); if (x && i >= 0 && i < STATUSES.length - 1) { x.status = STATUSES[i + 1].key; render(); persist({ type: 'upsert', task: x }); } return; }
@@ -568,6 +609,7 @@ document.addEventListener('keydown', e => {
 $('lang').addEventListener('change', e => { lang = e.target.value; localStorage.setItem('gfx_lang', lang); applyLang(); });
 $('sortSel').addEventListener('change', e => { sk = e.target.value; sd = 1; render(); });
 ['fS', 'fP', 'fA', 'fLate'].forEach(id => $(id).addEventListener('change', render));
+$('fArch').addEventListener('change', e => { showArch = e.target.checked; render(); });
 let timer; $('q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
 
 // drag & drop
