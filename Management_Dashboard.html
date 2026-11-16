@@ -54,7 +54,7 @@ input:focus,select:focus{box-shadow:0 0 0 2px var(--pri);border-color:transparen
 .tab.on{background:var(--card);color:var(--pri);box-shadow:0 1px 3px #0003}
 #view-kanban{display:grid;grid-template-columns:1fr;gap:.9rem;align-items:start}
 @media(min-width:768px){#view-kanban{grid-template-columns:1fr 1fr}}
-@media(min-width:1100px){#view-kanban{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1100px){#view-kanban{grid-template-columns:repeat(5,1fr)}}
 .col{border-radius:.8rem;padding:.7rem;border:1px solid color-mix(in srgb,var(--c) 30%,var(--bd));background:color-mix(in srgb,var(--c) 7%,var(--card))}
 .col-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:0 .2rem;border-bottom:2px solid var(--c);padding-bottom:.5rem}
 .col-h h3{font-weight:700;color:var(--c);font-size:.9rem}
@@ -266,7 +266,7 @@ const L = {
   imp0:'ไม่พบข้อมูลงานในไฟล์นี้',impC:'นำเข้า {n} งาน (เพิ่มใหม่ {a}, อัปเดตงานเดิม {u})\nดำเนินการต่อหรือไม่?',impBad:'ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองจากระบบนี้',xErr:'โหลดไลบรารี Excel ไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่',
   bo:'วัตถุประสงค์ (Objective)',bt:'กลุ่มเป้าหมาย (Target)',bh:'Headline',bs:'Sub-headline / Body',bc:'Call To Action',bd:'ขนาด (Dimensions)',bf:'ประเภทไฟล์ (Format)',br:'Mood & Tone / Reference',
   p_Normal:'ปกติ',p_Medium:'ปานกลาง','p_High / Campaign':'สำคัญ / แคมเปญ',p_Urgent:'ด่วนพิเศษ',
-  's_Pending Brief':'รอตรวจ','s_In Queue':'รอทำ','s_In Progress':'กำลังทำ',s_Completed:'เสร็จ'},
+  's_Pending Brief':'รอบรีฟ','s_In Queue':'อยู่ในคิว','s_In Progress':'กำลังทำ','s_In Review':'เสร็จแล้ว รอตรวจ',s_Completed:'ตรวจผ่าน / เสร็จสมบูรณ์'},
  en:{title:'Graphic Task Dashboard',sub:'Track and manage the graphic design queue',home:'Home',add:'New task',backup:'Backup',imp:'Import',
   sync:'Sync now',csvT:'Export CSV',xlsxT:'Export Excel',backupT:'Back up everything as .json (incl. brief details)',impT:'Import a .json backup (merged with existing data)',theme:'Toggle dark / light mode',
   kTotal:'Total tasks',kProg:'In progress',kUrg:'Urgent',kLate:'Overdue',kDone:'Completed',
@@ -280,7 +280,7 @@ const L = {
   imp0:'No tasks found in this file',impC:'Import {n} task(s) ({a} new, {u} updated)?\nContinue?',impBad:'Invalid file. Please choose a .json exported from this app.',xErr:'Could not load the Excel library. Check your connection and retry.',
   bo:'Objective',bt:'Target audience',bh:'Headline',bs:'Sub-headline / Body',bc:'Call To Action',bd:'Dimensions',bf:'File format',br:'Mood & Tone / Reference',
   p_Normal:'Normal',p_Medium:'Medium','p_High / Campaign':'High / Campaign',p_Urgent:'Urgent',
-  's_Pending Brief':'Pending Brief','s_In Queue':'In Queue','s_In Progress':'In Progress',s_Completed:'Completed'}
+  's_Pending Brief':'Pending Brief','s_In Queue':'In Queue','s_In Progress':'In Progress','s_In Review':'Done – Awaiting Review',s_Completed:'Approved / Completed'}
 };
 let lang = localStorage.getItem('gfx_lang') || ((navigator.language || 'th').startsWith('en') ? 'en' : 'th');
 if (!L[lang]) lang = 'th';
@@ -289,7 +289,7 @@ const S = k => t('s_' + k), P = k => t('p_' + k);
 
 const STATUSES = [
  { key:'Pending Brief', c:'#64748b' }, { key:'In Queue', c:'#2563eb' },
- { key:'In Progress', c:'#d97706' }, { key:'Completed', c:'#059669' }
+ { key:'In Progress', c:'#d97706' }, { key:'In Review', c:'#7c3aed' }, { key:'Completed', c:'#059669' }
 ];
 const PRI = ['Normal', 'Medium', 'High / Campaign', 'Urgent'];
 const BRIEF = [['objective','bo'],['target','bt'],['headline','bh'],['subHeadline','bs'],['cta','bc'],['dimensions','bd'],['fileType','bf'],['reference','br']];
@@ -323,10 +323,10 @@ function persist(...ops) { save(); if (Cloud.configured()) { ops.forEach(o => Cl
 const p2 = n => String(n).padStart(2, '0');
 const fmtDate = s => { const d = s && new Date(s); return !d || isNaN(d) ? '-' : `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+(lang==='th'?543:0)} ${p2(d.getHours())}:${p2(d.getMinutes())}`; };
 const pClass = p => p === 'Urgent' ? 'p-Urgent' : p === 'High / Campaign' ? 'p-High' : p === 'Medium' ? 'p-Medium' : '';
-const isLate = x => x.status !== 'Completed' && x.deadline && new Date(x.deadline) < new Date();
+const isLate = x => x.status !== 'Completed' && x.status !== 'In Review' && x.deadline && new Date(x.deadline) < new Date();
 const initial = s => esc((s || '?').trim().charAt(0).toUpperCase() || '?');
 function dlChip(x) {                                      // ป้ายนับถอยหลัง/เลยกำหนด
- if (!x.deadline || x.status === 'Completed') return '';
+ if (!x.deadline || x.status === 'Completed' || x.status === 'In Review') return '';
  const ms = new Date(x.deadline) - Date.now(), a = Math.abs(ms) / 6e4;
  const n = a < 60 ? [Math.max(1, Math.round(a)), 'm'] : a < 1440 ? [Math.round(a / 60), 'h'] : [Math.round(a / 1440), 'd'];
  const soon = ms >= 0 && ms < 864e5;
@@ -390,7 +390,7 @@ function render() {
      <div>${ic('clock')}${date}${chip}</div>
      <div>${x.assignee ? `<span class="av">${initial(x.assignee)}</span>` : ''}${t('asg')}: <b>${esc(x.assignee || '-')}</b></div>
     </div>
-    ${gi < 3 ? `<button class="mv" data-act="next" data-id="${id}">${t('moveTo')} ${esc(S(STATUSES[gi + 1].key))} →</button>` : ''}
+    ${gi >= 0 && gi < STATUSES.length - 1 ? `<button class="mv" data-act="next" data-id="${id}">${t('moveTo')} ${esc(S(STATUSES[gi + 1].key))} →</button>` : ''}
    </div>`);
   rows.push(`<tr>
    <td class="t">${esc(x.title)}</td><td>${esc(x.requester || '-')} <small>(${esc(x.dept || '-')})</small></td>
@@ -552,7 +552,7 @@ document.addEventListener('click', e => {
    case 'clear': return kf('');
    case 'view': return showBrief(x);
    case 'edit': return openModal(x);
-   case 'next': { const i = STATUSES.findIndex(s => s.key === (x && x.status)); if (x && i < 3) { x.status = STATUSES[i + 1].key; render(); persist({ type: 'upsert', task: x }); } return; }
+   case 'next': { const i = STATUSES.findIndex(s => s.key === (x && x.status)); if (x && i >= 0 && i < STATUSES.length - 1) { x.status = STATUSES[i + 1].key; render(); persist({ type: 'upsert', task: x }); } return; }
    case 'del': if (x) { undoTask = x; tasks = tasks.filter(o => o.id !== id); render(); persist({ type: 'delete', id }); toast(t('deleted'), 'undo'); } return;
    case 'undo': if (undoTask) { tasks.push(undoTask); persist({ type: 'upsert', task: undoTask }); undoTask = null; render(); $('toast').classList.remove('show'); } return;
   }
